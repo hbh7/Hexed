@@ -62,7 +62,7 @@ $("#hexedGame").hexed();
 
         // Create canvas
         var canvas = document.createElement("canvas");
-        canvas.setAttribute("id", "myCanvas");
+        canvas.id = "myCanvas";
         canvas.style = "text-align: center;";
         startingElement.appendChild(canvas);
 
@@ -101,8 +101,6 @@ $("#hexedGame").hexed();
         sliders_blue.appendChild(sliders_blue_slider);
         sliders_blue.appendChild(sliders_blue_number);
         sliders.appendChild(sliders_blue);
-
-
     }
 
     // Takes in targetColor and userColor, both assumed to be valid canvas colors
@@ -155,8 +153,6 @@ $("#hexedGame").hexed();
         document.getElementById("sliders_blue_slider").value = document.getElementById("sliders_blue_number").value;
       });
     }
-
-
 
 }(jQuery));
 
