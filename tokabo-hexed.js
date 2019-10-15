@@ -139,3 +139,22 @@
 
 }(jQuery));
 
+document.getElementById("sliders_red_slider").addEventListener("change",function(){
+  document.getElementById("sliders_red_number").value = document.getElementById("sliders_red_slider").value;
+});
+document.getElementById("sliders_red_number").addEventListener("change",function(){
+  document.getElementById("sliders_red_slider").value = document.getElementById("sliders_red_number").value;
+});
+document.getElementById("sliders_green_slider").addEventListener("change",function(){
+  document.getElementById("sliders_green_number").value = document.getElementById("sliders_green_slider").value;
+});
+document.getElementById("sliders_green_number").addEventListener("change",function(){
+  document.getElementById("sliders_green_slider").value = document.getElementById("sliders_green_number").value;
+});
+document.getElementById("sliders_blue_slider").addEventListener("change",function(){
+  document.getElementById("sliders_blue_number").value = document.getElementById("sliders_blue_slider").value;
+});
+document.getElementById("sliders_blue_number").addEventListener("change",function(){
+  document.getElementById("sliders_blue_slider").value = document.getElementById("sliders_blue_number").value;
+});
+
