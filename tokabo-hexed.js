@@ -9,6 +9,7 @@
     function getTime() {
         var d = new Date();
         var t = d.getTime();
+        return t;
     }
 
     function percentage_off(guess, actual){
