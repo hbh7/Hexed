@@ -2,7 +2,7 @@
 <html>
   <head>
     <title>Hexed!</title>
-    <javascript src="tokabo-hexed.css"></javascript>
+    <javascript src="tokabo-hexed.js"></javascript>
     <link rel="stylesheet" type="text/css" href="tokabo-hexed.css">
   </head>
   
@@ -14,9 +14,18 @@
         <div id="current"></div>
     </div>
     <div id="slides">
-        <input id="red" type="range" min="0" max="100" value="50">
-        <input id="green" type="range" min="0" max="100" value="50">
-        <input id="blue" type="range" min="0" max="100" value="50">
+        <div id="red">
+            <input id="red_slide" type="range" min="0" max="256" value="50">
+            <input id="red_input" type="number" value="50">
+        </div>
+        <div id="green">
+            <input id="green_slide" type="range" min="0" max="256" value="50">
+            <input id="green_input" type="number" value="50">
+        </div>
+        <div id="blue">
+            <input id="blue_slide" type="range" min="0" max="256" value="50">
+            <input id="blue_input" type="number" value="50">
+        </div>
     </div>
   </body>
 </html>
