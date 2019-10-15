@@ -62,6 +62,7 @@ $("#hexedGame").hexed();
 
         // Create canvas
         var canvas = document.createElement("canvas");
+        canvas.setAttribute("id", "myCanvas");
         canvas.style = "text-align: center;";
         startingElement.appendChild(canvas);
 
