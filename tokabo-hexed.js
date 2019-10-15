@@ -42,12 +42,6 @@
       return b;
     }
 
-    var r = r_color();
-    var g = g_color();
-    var b = b_color();
-
-
-
     // Generate the game HTML
     function genHTML(startingElement) {
 
