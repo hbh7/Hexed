@@ -1,9 +1,9 @@
 
 //
-$("#hexedGame").hexed();
+$("#hexedGame").hexed(5, 10);
 
 (function($) {
-    $.fn.hexed = function() {
+    $.fn.hexed = function(difficulty, turns) {
         // call functions inside this block
         genHTML(this);
     }
