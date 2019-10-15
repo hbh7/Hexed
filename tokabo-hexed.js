@@ -16,7 +16,7 @@ function calculate_score(r, g, b, in_r, in_g, in_b, time_taken, difficulty){
   var r_poff = percentage_off(in_r, r);
   var g_poff = percentage_off(in_g, g);
   var b_poff = percentage_off(in_b, b);
-  var average = (Math.abs(r_poff) + Math.abs(g_poff) + Math.abs(b_poff)) / 3;
+  var average = (r_poff + g_poff + b_poff) / 3;
   var score = ((15 - difficulty - average) / (15 - difficulty)) * (15000 - time_taken);
   score = Math.ceil(score * 100) / 100;
   if (score < 0) {
