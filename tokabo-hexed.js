@@ -5,7 +5,7 @@
         // call functions inside this block
     }
     // define functions inside this block
-    // returns miliseconds since UNIX epoch
+    // returns milliseconds since UNIX epoch
     function getTime() {
         var d = new Date();
         var t = d.getTime();
