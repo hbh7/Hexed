@@ -1,8 +1,11 @@
 
 //
+$("#hexedGame").hexed();
+
 (function($) {
     $.fn.hexed = function() {
         // call functions inside this block
+        genHTML(this);
     }
     // define functions inside this block
     // returns milliseconds since UNIX epoch
