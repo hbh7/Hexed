@@ -102,3 +102,34 @@ function genHTML(startingElement) {
 
 
 }
+
+// Takes in targetColor and userColor, both assumed to be valid canvas colors
+// (When it was the sample code, it was like "#000000"), other color representations
+// likely valid too but unknown at the moment
+function drawCanvas(targetColor, userColor) {
+  var canvas = document.getElementById("myCanvas");
+  var context = canvas.getContext("2d");
+
+  var leftCircle_centerX = (canvas.width / 2) - (canvas.width / 4);
+  var leftCircle_centerY = (canvas.width / 2) - (canvas.width / 4);
+  var rightCircle_centerX = (canvas.width / 2) + (canvas.width / 4);
+  var rightCircle_centerY = (canvas.width / 2) + (canvas.width / 4);
+  var radius = (canvas.height / 4);
+
+  context.beginPath();
+  context.arc(leftCircle_centerX, leftCircle_centerY, radius, 0, 2 * Math.PI, false);
+  context.fillStyle = targetColor;
+  context.fill();
+  context.lineWidth = 5;
+  context.strokeStyle = '#000000';
+  context.stroke();
+
+  context.beginPath();
+  context.arc(rightCircle_centerX, rightCircle_centerY, radius, 0, 2 * Math.PI, false);
+  context.fillStyle = userColor;
+  context.fill();
+  context.lineWidth = 5;
+  context.strokeStyle = '#000000';
+  context.stroke();
+
+}
