@@ -134,23 +134,23 @@ $("#hexedGame").hexed();
 
     }
     function sliderNumber() {
-      document.getElementById("sliders_red_slider").addEventListener("change", function () {
-        document.getElementById("sliders_red_number").value = document.getElementById("sliders_red_slider").value;
+      document.getElementById("red_slider").addEventListener("change", function () {
+        document.getElementById("red_number").value = document.getElementById("red_slider").value;
       });
-      document.getElementById("sliders_red_number").addEventListener("change", function () {
-        document.getElementById("sliders_red_slider").value = document.getElementById("sliders_red_number").value;
+      document.getElementById("red_number").addEventListener("change", function () {
+        document.getElementById("red_slider").value = document.getElementById("red_number").value;
       });
-      document.getElementById("sliders_green_slider").addEventListener("change", function () {
-        document.getElementById("sliders_green_number").value = document.getElementById("sliders_green_slider").value;
+      document.getElementById("green_slider").addEventListener("change", function () {
+        document.getElementById("green_number").value = document.getElementById("green_slider").value;
       });
-      document.getElementById("sliders_green_number").addEventListener("change", function () {
-        document.getElementById("sliders_green_slider").value = document.getElementById("sliders_green_number").value;
+      document.getElementById("green_number").addEventListener("change", function () {
+        document.getElementById("green_slider").value = document.getElementById("green_number").value;
       });
-      document.getElementById("sliders_blue_slider").addEventListener("change", function () {
-        document.getElementById("sliders_blue_number").value = document.getElementById("sliders_blue_slider").value;
+      document.getElementById("blue_slider").addEventListener("change", function () {
+        document.getElementById("blue_number").value = document.getElementById("blue_slider").value;
       });
-      document.getElementById("sliders_blue_number").addEventListener("change", function () {
-        document.getElementById("sliders_blue_slider").value = document.getElementById("sliders_blue_number").value;
+      document.getElementById("blue_number").addEventListener("change", function () {
+        document.getElementById("blue_slider").value = document.getElementById("blue_number").value;
       });
     }
 
