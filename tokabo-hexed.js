@@ -1,4 +1,16 @@
-Function:
+// returns miliseconds since UNIX epoch
+function getTime() {
+    var d = new Date();
+    var t = d.getTime();
+}
+
+//
+(function($) {
+    $.fn.hexed = function() {
+        // call functions inside this block
+    }
+    // define functions inside this block
+}(jQuery));
 
 
 
@@ -73,7 +85,7 @@ function genHTML(startingElement) {
     sliders_red_slider.id = "red_slider";
     var sliders_red_number = document.createElement("input");
     sliders_red_number.id = "red_number";
-    
+
     sliders_red.appendChild(sliders_red_slider);
     sliders_red.appendChild(sliders_red_number);
     sliders.appendChild(sliders_red);
@@ -84,7 +96,7 @@ function genHTML(startingElement) {
     sliders_green_slider.id = "green_slider";
     var sliders_green_number = document.createElement("input");
     sliders_green_number.id = "green_number";
-  
+
     sliders_green.appendChild(sliders_green_slider);
     sliders_green.appendChild(sliders_green_number);
     sliders.appendChild(sliders_green);
@@ -95,7 +107,7 @@ function genHTML(startingElement) {
     sliders_blue_slider.id = "blue_slider";
     var sliders_blue_number = document.createElement("input");
     sliders_blue_number.id = "blue_number";
-  
+
     sliders_blue.appendChild(sliders_blue_slider);
     sliders_blue.appendChild(sliders_blue_number);
     sliders.appendChild(sliders_blue);
