@@ -3,7 +3,7 @@
 $("#hexedGame").hexed();
 
 (function($) {
-    $.fn.hexed = function() {
+    $.hexed = function() {
         // call functions inside this block
         genHTML(this);
     }
