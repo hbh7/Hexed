@@ -14,7 +14,6 @@ $("#hexedGame").hexed(5, 10);
         var t = d.getTime();
         return t;
     }
-
     function percentage_off(guess, actual){
       var percentage_off = (Math.abs(actual - guess) / 255) * 100;
       return percentage_off;
