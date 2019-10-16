@@ -1,12 +1,9 @@
-
-//
-$("#hexedGame").hexed(5, 10);
-
 (function($) {
     $.fn.hexed = function(difficulty, turns) {
         // call functions inside this block
-        genHTML(this);
-    }
+        genHTML(this.get(0));
+    };
+
     // define functions inside this block
     // returns milliseconds since UNIX epoch
     function getTime() {
@@ -100,6 +97,8 @@ $("#hexedGame").hexed(5, 10);
         sliders_blue.appendChild(sliders_blue_slider);
         sliders_blue.appendChild(sliders_blue_number);
         sliders.appendChild(sliders_blue);
+
+
     }
 
     // Takes in targetColor and userColor, both assumed to be valid canvas colors
@@ -152,6 +151,8 @@ $("#hexedGame").hexed(5, 10);
         document.getElementById("blue_slider").value = document.getElementById("blue_number").value;
       });
     }
+
+
 
 }(jQuery));
 
