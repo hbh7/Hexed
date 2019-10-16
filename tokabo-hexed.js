@@ -2,6 +2,7 @@
     $.fn.hexed = function(difficulty, turns) {
         // call functions inside this block
         genHTML(this.get(0));
+        drawCanvas("#00ff00", "#ff0000");
     };
 
     // define functions inside this block
@@ -60,6 +61,8 @@
         var canvas = document.createElement("canvas");
         canvas.id = "myCanvas";
         canvas.style = "text-align: center;";
+        canvas.height = 200;
+        canvas.width = 300;
         startingElement.appendChild(canvas);
 
         // Create sliders
@@ -69,6 +72,7 @@
         var sliders_red = document.createElement("div");
         var sliders_red_slider = document.createElement("input");
         sliders_red_slider.id = "red_slider";
+        sliders_red_slider.type = "range";
         var sliders_red_number = document.createElement("input");
         sliders_red_number.id = "red_number";
 
@@ -80,6 +84,7 @@
         var sliders_green = document.createElement("div");
         var sliders_green_slider = document.createElement("input");
         sliders_green_slider.id = "green_slider";
+        sliders_green_slider.type = "range";
         var sliders_green_number = document.createElement("input");
         sliders_green_number.id = "green_number";
 
@@ -91,12 +96,15 @@
         var sliders_blue = document.createElement("div");
         var sliders_blue_slider = document.createElement("input");
         sliders_blue_slider.id = "blue_slider";
+        sliders_blue_slider.type = "range";
         var sliders_blue_number = document.createElement("input");
         sliders_blue_number.id = "blue_number";
 
         sliders_blue.appendChild(sliders_blue_slider);
         sliders_blue.appendChild(sliders_blue_number);
         sliders.appendChild(sliders_blue);
+
+        startingElement.appendChild(sliders);
 
 
     }
@@ -109,9 +117,9 @@
       var context = canvas.getContext("2d");
 
       var leftCircle_centerX = (canvas.width / 2) - (canvas.width / 4);
-      var leftCircle_centerY = (canvas.width / 2) - (canvas.width / 4);
+      var leftCircle_centerY = (canvas.height / 2);
       var rightCircle_centerX = (canvas.width / 2) + (canvas.width / 4);
-      var rightCircle_centerY = (canvas.width / 2) + (canvas.width / 4);
+      var rightCircle_centerY = (canvas.height / 2);
       var radius = (canvas.height / 4);
 
       context.beginPath();
