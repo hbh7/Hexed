@@ -3,7 +3,7 @@
     // call functions inside this block
     genHTML(this.get(0));
     drawCanvas("#00ff00", "#ff0000", 20);
-    sliderNumber();
+    //sliderNumber();
     var startTime = getTime();
     var target_r_color = r_color();
     var target_g_color = g_color();
