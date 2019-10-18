@@ -1,10 +1,10 @@
-(function($) { 
+(function($) {
     $.fn.hexed = function(difficulty, turns) {
-        // call functions inside this block
-        genHTML(this.get(0));
-        drawCanvas("#00ff00", "#ff0000");
-        sliderNumber();
-        var startTime = getTime();
+      // call functions inside this block
+      genHTML(this.get(0));
+      drawCanvas("#00ff00", "#ff0000", 20);
+      sliderNumber();
+      var startTime = getTime();
     };
 
     // define functions inside this block
@@ -238,3 +238,5 @@
         document.getElementById("blue_slider").value = document.getElementById("blue_number").value;
       });
     }
+
+}(jQuery));
