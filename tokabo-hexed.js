@@ -1,22 +1,26 @@
-(function($) {
+(function($) { <<
+    <<
+    << < HEAD
     $.fn.hexed = function(difficulty, turns) {
-        // call functions inside this block
-        genHTML(this.get(0));
-        drawCanvas("#00ff00", "#ff0000");
+      // call functions inside this block
+      genHTML(this.get(0));
+      drawCanvas("#00ff00", "#ff0000");
     };
 
     // define functions inside this block
     // returns milliseconds since UNIX epoch
     function getTime() {
-        var d = new Date();
-        var t = d.getTime();
-        return t;
+      var d = new Date();
+      var t = d.getTime();
+      return t;
     }
-    function percentage_off(guess, actual){
+
+    function percentage_off(guess, actual) {
       var percentage_off = (Math.abs(actual - guess) / 255) * 100;
       return percentage_off;
     }
-    function calculate_score(r, g, b, in_r, in_g, in_b, time_taken, difficulty){
+
+    function calculate_score(r, g, b, in_r, in_g, in_b, time_taken, difficulty) {
       var r_poff = percentage_off(in_r, r);
       var g_poff = percentage_off(in_g, g);
       var b_poff = percentage_off(in_b, b);
@@ -29,115 +33,96 @@
       return score;
     }
 
-    function r_color(){
+    function r_color() {
       r = Math.floor(Math.random() * 256);
       return r;
     }
-    function g_color(){
+
+    function g_color() {
       g = Math.floor(Math.random() * 256);
       return g;
     }
-    function b_color(){
+
+    function b_color() {
       b = Math.floor(Math.random() * 256);
       return b;
+    }
+
+    function score() {
+      //get values from page and call calculate_score
     }
 
     // Generate the game HTML
     function genHTML(startingElement) {
 
-        // Create title header
-        var h1 = document.createElement("h1");
-        h1.innerText = "Hexed! Guess The Color!";
-        h1.style = "text-align: center;";
-        startingElement.appendChild(h1);
+      // Create title header
+      var h1 = document.createElement("h1");
+      h1.innerText = "Hexed! Guess The Color!";
+      h1.style = "text-align: center;";
+      startingElement.appendChild(h1);
 
-        // Create description header
-        var h2 = document.createElement("h2");
-        h2.innerText = "The goal of this game is to guess the RGB value";
-        h2.style = "text-align: center;";
-        startingElement.appendChild(h2);
+      // Create description header
+      var h2 = document.createElement("h2");
+      h2.innerText = "The goal of this game is to guess the RGB value";
+      h2.style = "text-align: center;";
+      startingElement.appendChild(h2);
 
-        // Create canvas
-        var canvas = document.createElement("canvas");
-        canvas.id = "myCanvas";
-        canvas.style = "text-align: center;";
-        canvas.height = 200;
-        canvas.width = 300;
-        startingElement.appendChild(canvas);
+      // Create canvas
+      var canvas = document.createElement("canvas");
+      canvas.id = "myCanvas";
+      canvas.style = "text-align: center;";
+      canvas.height = 200;
+      canvas.width = 300;
+      startingElement.appendChild(canvas);
 
-        // Create sliders
-        var sliders = document.createElement("div");
+      // Create sliders
+      var sliders = document.createElement("div");
 
-        // Red slider
-        var sliders_red = document.createElement("div");
-        var sliders_red_slider = document.createElement("input");
-        sliders_red_slider.id = "red_slider";
-        sliders_red_slider.type = "range";
-        sliders_red_slider.max = "255";
-        sliders_red_slider.value = "0";
-        sliders_red_slider.onchange = function(){
-            document.getElementById("red_number").value = this.value;
-        };
-        var sliders_red_number = document.createElement("input");
-        sliders_red_number.id = "red_number";
-        sliders_red_number.type = "number";
-        sliders_red_number.value = "0";
-        sliders_red_number.onchange = function(){
-            document.getElementById("red_slider").value = this.value;
-        };
+      // Red slider
+      var sliders_red = document.createElement("div");
+      var sliders_red_slider = document.createElement("input");
+      sliders_red_slider.id = "red_slider";
+      sliders_red_slider.type = "range";
+      var sliders_red_number = document.createElement("input");
+      sliders_red_number.id = "red_number";
 
-        sliders_red.appendChild(sliders_red_slider);
-        sliders_red.appendChild(sliders_red_number);
-        sliders.appendChild(sliders_red);
-        
+      sliders_red.appendChild(sliders_red_slider);
+      sliders_red.appendChild(sliders_red_number);
+      sliders.appendChild(sliders_red);
 
-        // Green slider
-        var sliders_green = document.createElement("div");
-        var sliders_green_slider = document.createElement("input");
-        sliders_green_slider.id = "green_slider";
-        sliders_green_slider.type = "range";
-        sliders_green_slider.max = "255";
-        sliders_green_slider.value = "0";
-        sliders_green_slider.onchange = function(){
-            document.getElementById("green_number").value = this.value;
-        };
-        var sliders_green_number = document.createElement("input");
-        sliders_green_number.id = "green_number";
-        sliders_green_number.type = "number";
-        sliders_green_number.value = "0";
-        sliders_green_number.onchange = function(){
-            document.getElementById("green_slider").value = this.value;
-        };
+      // Green slider
+      var sliders_green = document.createElement("div");
+      var sliders_green_slider = document.createElement("input");
+      sliders_green_slider.id = "green_slider";
+      sliders_green_slider.type = "range";
+      var sliders_green_number = document.createElement("input");
+      sliders_green_number.id = "green_number";
 
-        sliders_green.appendChild(sliders_green_slider);
-        sliders_green.appendChild(sliders_green_number);
-        sliders.appendChild(sliders_green);
+      sliders_green.appendChild(sliders_green_slider);
+      sliders_green.appendChild(sliders_green_number);
+      sliders.appendChild(sliders_green);
 
-        // Blue slider
-        var sliders_blue = document.createElement("div");
-        var sliders_blue_slider = document.createElement("input");
-        sliders_blue_slider.id = "blue_slider";
-        sliders_blue_slider.type = "range";
-        sliders_blue_slider.max = "255";
-        sliders_blue_slider.value = "0";
-        sliders_blue_slider.onchange = function(){
-            document.getElementById("blue_number").value = this.value;
-        };
-        var sliders_blue_number = document.createElement("input");
-        sliders_blue_number.id = "blue_number";
-        sliders_blue_number.type = "number";
-        sliders_blue_number.value = "0";
-        sliders_blue_number.onchange = function(){
-            document.getElementById("blue_slider").value = this.value;
-        };
+      // Blue slider
+      var sliders_blue = document.createElement("div");
+      var sliders_blue_slider = document.createElement("input");
+      sliders_blue_slider.id = "blue_slider";
+      sliders_blue_slider.type = "range";
+      var sliders_blue_number = document.createElement("input");
+      sliders_blue_number.id = "blue_number";
 
-        sliders_blue.appendChild(sliders_blue_slider);
-        sliders_blue.appendChild(sliders_blue_number);
-        sliders.appendChild(sliders_blue);
+      sliders_blue.appendChild(sliders_blue_slider);
+      sliders_blue.appendChild(sliders_blue_number);
+      sliders.appendChild(sliders_blue);
 
-        startingElement.appendChild(sliders);
+      startingElement.appendChild(sliders);
 
-
+      // Submit Button
+      var submit = document.createElement("input");
+      submit.id = "submit";
+      submit.type = "button";
+      submit.value = "Submit";
+      submit.onclick = "score()";
+      startingElement.appendChild(submit);
     }
 
     // Takes in targetColor and userColor, both assumed to be valid canvas colors
@@ -170,28 +155,24 @@
       context.stroke();
 
     }
-    /*function sliderNumber() {
-      document.getElementById("red_slider").addEventListener("change", function () {
+
+    function sliderNumber() {
+      document.getElementById("red_slider").addEventListener("change", function() {
         document.getElementById("red_number").value = document.getElementById("red_slider").value;
       });
-      document.getElementById("red_number").addEventListener("change", function () {
+      document.getElementById("red_number").addEventListener("change", function() {
         document.getElementById("red_slider").value = document.getElementById("red_number").value;
       });
-      document.getElementById("green_slider").addEventListener("change", function () {
+      document.getElementById("green_slider").addEventListener("change", function() {
         document.getElementById("green_number").value = document.getElementById("green_slider").value;
       });
-      document.getElementById("green_number").addEventListener("change", function () {
+      document.getElementById("green_number").addEventListener("change", function() {
         document.getElementById("green_slider").value = document.getElementById("green_number").value;
       });
-      document.getElementById("blue_slider").addEventListener("change", function () {
+      document.getElementById("blue_slider").addEventListener("change", function() {
         document.getElementById("blue_number").value = document.getElementById("blue_slider").value;
       });
-      document.getElementById("blue_number").addEventListener("change", function () {
+      document.getElementById("blue_number").addEventListener("change", function() {
         document.getElementById("blue_slider").value = document.getElementById("blue_number").value;
       });
     }
-*/
-
-
-}(jQuery));
-
