@@ -22,7 +22,8 @@
       console.log(close);
       drawCanvas("#00ff00", hexValue, close);
     })
-
+    // delete the next line!!
+    genForm();
   };
 
   function toPaddedHex(d) {
@@ -337,6 +338,21 @@ function genForm() {
 
 // genForm() MUST finish before this function is called, as it takes the input from genForm and from other elements on the page
 function saveInfo() {
-  alert("button clicked");
+  var pName = document.getElementById("pName").value;
+  if (pName.length == 0) {
+    alert("Please enter a name");
+  } else {
+    //
+  }
 }
+
+
+
+
+
+
+
+
+
+
 
