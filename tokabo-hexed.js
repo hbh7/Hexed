@@ -304,7 +304,7 @@
 
   }
 
-    
+
 }(jQuery));
 
 
@@ -314,6 +314,29 @@
 // this function should run after the game ends and the user's score is calculated
 function genForm() {
   var form = document.createElement("div");
-  document.getElementById("body").appendChild(form);
+  var someText = document.createElement("p");
+  someText.innerText = "Enter your name and click the button to save your score :)"
+  form.appendChild(someText);
+  // input field (player name)
+  var inputName = document.createElement("input");
+  inputName.id = "pName";
+  inputName.type = "text";
+  inputName.placeholder = "Name here";
+  inputName.required = "required";
+  form.appendChild(inputName);
+  // Submit Button
+  var submit = document.createElement("input");
+  submit.id = "saveInfo";
+  submit.type = "button";
+  submit.value = "Save Info";
+  submit.onclick = function() { saveInfo(); };
+  form.appendChild(submit);
+  document.body.appendChild(form);
+}
+
+
+// genForm() MUST finish before this function is called, as it takes the input from genForm and from other elements on the page
+function saveInfo() {
+  alert("button clicked");
 }
 
