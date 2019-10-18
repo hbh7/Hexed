@@ -3,7 +3,6 @@
         // call functions inside this block
         genHTML(this.get(0));
         drawCanvas("#00ff00", "#ff0000");
-        sliderNumber();
     };
 
     // define functions inside this block
@@ -14,7 +13,8 @@
         return t;
     }
     function percentage_off(guess, actual){
-      return (Math.abs(actual - guess) / 255) * 100;
+      var percentage_off = (Math.abs(actual - guess) / 255) * 100;
+      return percentage_off;
     }
     function calculate_score(r, g, b, in_r, in_g, in_b, time_taken, difficulty){
       var r_poff = percentage_off(in_r, r);
@@ -73,8 +73,12 @@
         var sliders_red_slider = document.createElement("input");
         sliders_red_slider.id = "red_slider";
         sliders_red_slider.type = "range";
+        sliders_red_slider.max = "255";
+        sliders_red_slider.value = "0";
         var sliders_red_number = document.createElement("input");
         sliders_red_number.id = "red_number";
+        sliders_red_number.type = "number";
+        sliders_red_number.value = "0";
 
         sliders_red.appendChild(sliders_red_slider);
         sliders_red.appendChild(sliders_red_number);
@@ -85,8 +89,12 @@
         var sliders_green_slider = document.createElement("input");
         sliders_green_slider.id = "green_slider";
         sliders_green_slider.type = "range";
+        sliders_green_slider.max = "255";
+        sliders_green_slider.value = "0";
         var sliders_green_number = document.createElement("input");
         sliders_green_number.id = "green_number";
+        sliders_green_number.type = "number";
+        sliders_green_number.value = "0";
 
         sliders_green.appendChild(sliders_green_slider);
         sliders_green.appendChild(sliders_green_number);
@@ -97,8 +105,12 @@
         var sliders_blue_slider = document.createElement("input");
         sliders_blue_slider.id = "blue_slider";
         sliders_blue_slider.type = "range";
+        sliders_blue_slider.max = "255";
+        sliders_blue_slider.value = "0";
         var sliders_blue_number = document.createElement("input");
         sliders_blue_number.id = "blue_number";
+        sliders_blue_number.type = "number";
+        sliders_blue_number.value = "0";
 
         sliders_blue.appendChild(sliders_blue_slider);
         sliders_blue.appendChild(sliders_blue_number);
