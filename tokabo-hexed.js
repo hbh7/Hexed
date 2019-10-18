@@ -201,7 +201,7 @@
     submit.id = "submit";
     submit.type = "button";
     submit.value = "Submit";
-    submit.onclick = "score()";
+    submit.onclick = function() { score(); } ;
     startingElement.appendChild(submit);
 
     // Scoreboard
