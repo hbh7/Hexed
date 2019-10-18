@@ -83,8 +83,18 @@
       var sliders_red_slider = document.createElement("input");
       sliders_red_slider.id = "red_slider";
       sliders_red_slider.type = "range";
+      sliders_red_slider.max = "255";
+      sliders_red_slider.value = "0";
+      sliders_red_slider.onchange = function(){
+          document.getElementById("red_number").value = this.value;
+      };
       var sliders_red_number = document.createElement("input");
       sliders_red_number.id = "red_number";
+      sliders_red_number.type = "number";
+      sliders_red_number.value = "0";
+      sliders_red_number.onchange = function(){
+          document.getElementById("red_slider").value = this.value;
+      };
 
       sliders_red.appendChild(sliders_red_slider);
       sliders_red.appendChild(sliders_red_number);
@@ -95,8 +105,18 @@
       var sliders_green_slider = document.createElement("input");
       sliders_green_slider.id = "green_slider";
       sliders_green_slider.type = "range";
+      sliders_green_slider.max = "255";
+      sliders_green_slider.value = "0";
+      sliders_green_slider.onchange = function(){
+          document.getElementById("green_number").value = this.value;
+      };
       var sliders_green_number = document.createElement("input");
       sliders_green_number.id = "green_number";
+      sliders_green_number.type = "number";
+      sliders_green_number.value = "0";
+      sliders_green_number.onchange = function(){
+          document.getElementById("green_slider").value = this.value;
+      };
 
       sliders_green.appendChild(sliders_green_slider);
       sliders_green.appendChild(sliders_green_number);
@@ -107,8 +127,18 @@
       var sliders_blue_slider = document.createElement("input");
       sliders_blue_slider.id = "blue_slider";
       sliders_blue_slider.type = "range";
+      sliders_blue_slider.max = "255";
+      sliders_blue_slider.value = "0";
+      sliders_blue_slider.onchange = function(){
+          document.getElementById("blue_number").value = this.value;
+      };
       var sliders_blue_number = document.createElement("input");
       sliders_blue_number.id = "blue_number";
+      sliders_blue_number.type = "number";
+      sliders_blue_number.value = "0";
+      sliders_blue_number.onchange = function(){
+          document.getElementById("blue_slider").value = this.value;
+      };
 
       sliders_blue.appendChild(sliders_blue_slider);
       sliders_blue.appendChild(sliders_blue_number);
@@ -218,27 +248,7 @@
 
     }
 
-    function sliderNumber() {
-      document.getElementById("red_slider").addEventListener("change", function() {
-        document.getElementById("red_number").value = document.getElementById("red_slider").value;
-      });
-      document.getElementById("red_number").addEventListener("change", function() {
-        document.getElementById("red_slider").value = document.getElementById("red_number").value;
-      });
-      document.getElementById("green_slider").addEventListener("change", function() {
-        document.getElementById("green_number").value = document.getElementById("green_slider").value;
-      });
-      document.getElementById("green_number").addEventListener("change", function() {
-        document.getElementById("green_slider").value = document.getElementById("green_number").value;
-      });
-      document.getElementById("blue_slider").addEventListener("change", function() {
-        document.getElementById("blue_number").value = document.getElementById("blue_slider").value;
-      });
-      document.getElementById("blue_number").addEventListener("change", function() {
-        document.getElementById("blue_slider").value = document.getElementById("blue_number").value;
-      });
-    }
-
+    
 }(jQuery));
 
 
