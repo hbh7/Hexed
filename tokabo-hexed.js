@@ -117,8 +117,6 @@
     sliders_red_slider.type = "range";
     sliders_red_slider.max = "255";
     sliders_red_slider.value = "255";
-    document.getElementById("red_number").ui-slider-range { background: red; }
-    document.getElementById("red_number").ui-slider-handle { border-color: red; }
     sliders_red_slider.oninput = function(){
       document.getElementById("red_number").value = this.value;
       updateCanvas(targetColor, startTime, difficulty);
