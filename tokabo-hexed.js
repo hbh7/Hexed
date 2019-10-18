@@ -3,6 +3,7 @@
         // call functions inside this block
         genHTML(this.get(0));
         drawCanvas("#00ff00", "#ff0000");
+        sliderNumber();
     };
 
     // define functions inside this block
@@ -13,8 +14,7 @@
         return t;
     }
     function percentage_off(guess, actual){
-      var percentage_off = (Math.abs(actual - guess) / 255) * 100;
-      return percentage_off;
+      return (Math.abs(actual - guess) / 255) * 100;
     }
     function calculate_score(r, g, b, in_r, in_g, in_b, time_taken, difficulty){
       var r_poff = percentage_off(in_r, r);
