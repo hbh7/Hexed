@@ -4,6 +4,7 @@
         genHTML(this.get(0));
         drawCanvas("#00ff00", "#ff0000");
         sliderNumber();
+        var startTime = getTime();
     };
 
     // define functions inside this block
@@ -112,7 +113,7 @@
     // Takes in targetColor and userColor, both assumed to be valid canvas colors
     // (When it was the sample code, it was like "#000000"), other color representations
     // likely valid too but unknown at the moment
-    function drawCanvas(targetColor, userColor) {
+    function drawCanvas(targetColor, userColor, totalSides) {
       var canvas = document.getElementById("myCanvas");
       var context = canvas.getContext("2d");
 
@@ -122,7 +123,7 @@
       var rightCircle_centerY = (canvas.height / 2);
       var radius = (canvas.height / 4);
 
-      context.beginPath();
+/*      context.beginPath();
       context.arc(leftCircle_centerX, leftCircle_centerY, radius, 0, 2 * Math.PI, false);
       context.fillStyle = targetColor;
       context.fill();
@@ -136,7 +137,69 @@
       context.fill();
       context.lineWidth = 5;
       context.strokeStyle = '#000000';
-      context.stroke();
+      context.stroke();*/
+
+      var size = 70;
+      var x = 70;
+      var y = 100;
+
+      context.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
+
+      for (var side = 0; side < 7; side++) {
+        context.lineTo(x + size * Math.cos(side * 2 * Math.PI / 6), y + size * Math.sin(side * 2 * Math.PI / 6));
+      }
+
+      context.fillStyle = "#000000";
+      context.fill();
+
+      size = 65;
+      x = 70;
+      y = 100;
+      side = 0;
+
+      context.beginPath();
+      context.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
+
+      for (var side = 0; side < 7; side++) {
+        context.lineTo(x + size * Math.cos(side * 2 * Math.PI / 6), y + size * Math.sin(side * 2 * Math.PI / 6));
+      }
+
+      context.fillStyle = "#ff0000";
+      context.fill();
+
+      // 2nd hexagon
+
+      //var totalSides = 30;
+
+      size = 70;
+      x = 230;
+      y = 100;
+
+      context.beginPath();
+      context.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
+
+      for (var side = 0; side < totalSides; side++) {
+        context.lineTo(x + size * Math.cos(side * 2 * Math.PI / totalSides), y + size * Math.sin(side * 2 * Math.PI / totalSides));
+      }
+
+      context.fillStyle = "#000000";
+      context.fill();
+
+      size = 65;
+      x = 230;
+      y = 100;
+      side = 0;
+
+      context.beginPath();
+      context.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
+
+      for (var side = 0; side < totalSides; side++) {
+        context.lineTo(x + size * Math.cos(side * 2 * Math.PI / totalSides), y + size * Math.sin(side * 2 * Math.PI / totalSides));
+      }
+
+      context.fillStyle = "#0000ff";
+      context.fill();
+
 
     }
     function sliderNumber() {
