@@ -1,29 +1,39 @@
 (function($) {
+
   $.fn.hexed = function(difficulty, turns) {
     // call functions inside this block
     genHTML(this.get(0));
-    drawCanvas("#00ff00", "#ff0000", 20);
-    //sliderNumber();
+
     var startTime = getTime();
-    var target_r_color = r_color();
-    var target_g_color = g_color();
-    var target_b_color = b_color();
+    var targetColor = genRandomColor();
+
+    drawCanvas(targetColor, "#ffffff", 20);
 
     document.getElementById("submit").addEventListener("click", function() {
-
-      var in_r = parseInt(document.getElementById("red_number").value);
-      var in_g = parseInt(document.getElementById("green_number").value);
-      var in_b = parseInt(document.getElementById("blue_number").value);
-      var hexValue = "#" + toPaddedHex(in_r) + toPaddedHex(in_g) + toPaddedHex(in_b);
-      console.log(hexValue);
-      var time_taken = getTime() - startTime;
-      close = calculate_score(r, g, b, in_r, in_g, in_b, time_taken, difficulty);
-      close = 20;
-      console.log(close);
-      drawCanvas("#00ff00", hexValue, close);
-    })
+      updateCanvas(targetColor, startTime, difficulty)
+    });
 
   };
+
+  function updateCanvas(targetColor, startTime, difficulty) {
+    var in_r = parseInt(document.getElementById("red_number").value);
+    var in_g = parseInt(document.getElementById("green_number").value);
+    var in_b = parseInt(document.getElementById("blue_number").value);
+    var hexValue = "#" + toPaddedHex(in_r) + toPaddedHex(in_g) + toPaddedHex(in_b);
+    console.log(hexValue);
+    var time_taken = getTime() - startTime;
+    close = calculate_score(r, g, b, in_r, in_g, in_b, time_taken, difficulty);
+    close = 20;
+    console.log(close);
+    drawCanvas(targetColor, hexValue, close);
+  }
+
+  function genRandomColor() {
+    var in_r = r_color();
+    var in_g = g_color();
+    var in_b = b_color();
+    return "#" + toPaddedHex(in_r) + toPaddedHex(in_g) + toPaddedHex(in_b);
+  }
 
   function toPaddedHex(d) {
     var s = (+d).toString(16);
@@ -259,7 +269,7 @@
       context.lineTo(x + size * Math.cos(side * 2 * Math.PI / 6), y + size * Math.sin(side * 2 * Math.PI / 6));
     }
 
-    context.fillStyle = "#ff0000";
+    context.fillStyle = targetColor;
     context.fill();
 
     // 2nd hexagon
