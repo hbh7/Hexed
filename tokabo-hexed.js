@@ -176,3 +176,18 @@
 
 }(jQuery));
 
+
+
+// not sure where this code will go yet (some of it will probably go in a different file)
+// this function should run after the game ends and the user's score is calculated
+function genForm() {
+  var form = document.createElement("div");
+  document.getElementById("body").appendChild(form);
+}
+
+
+
+
+
+
+
