@@ -203,6 +203,12 @@
     submit.value = "Submit";
     submit.onclick = "score()";
     startingElement.appendChild(submit);
+
+    // Scoreboard
+    var score = document.createElement("p");
+    score.id = "scoreboard";
+    score.innerText = "Your Score: ";
+    startingElement.appendChild(score);
   }
 
   // Takes in targetColor and userColor, both assumed to be valid canvas colors
