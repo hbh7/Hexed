@@ -7,37 +7,23 @@
     var targetR = r_color();
     var targetG = g_color();
     var targetB = b_color();
-    var targetColor = genRandomColor(targetR, targetG, targetB);
 
-    genHTML(this.get(0), targetColor, startTime, difficulty);
+    genHTML(this.get(0), targetR, targetG, targetB, startTime, difficulty);
 
-    drawCanvas(targetColor, "#ffffff", 20);
+    drawCanvas(targetR, targetG, targetB, 255, 255, 255, 20);
 
   };
 
-  function updateCanvas(targetColor, startTime, difficulty) {
-    var in_r = parseInt(document.getElementById("red_number").value);
-    var in_g = parseInt(document.getElementById("green_number").value);
-    var in_b = parseInt(document.getElementById("blue_number").value);
-    var hexValue = "#" + toPaddedHex(in_r) + toPaddedHex(in_g) + toPaddedHex(in_b);
+  function updateCanvas(targetR, targetG, targetB, startTime, difficulty) {
+    var userR = parseInt(document.getElementById("red_number").value);
+    var userG = parseInt(document.getElementById("green_number").value);
+    var userB = parseInt(document.getElementById("blue_number").value);
     var time_taken = getTime() - startTime;
-    close = calculate_score(r, g, b, in_r, in_g, in_b, time_taken, difficulty);
+    var close = calculate_score(targetR, targetG, targetB, userR, userG, userB, time_taken, difficulty);
 
     console.log(close);
     close = 20;
-    drawCanvas(targetColor, hexValue, close);
-  }
-
-  function genRandomColor(in_r, in_g, in_b) {
-    return "#" + toPaddedHex(in_r) + toPaddedHex(in_g) + toPaddedHex(in_b);
-  }
-
-  function toPaddedHex(d) {
-    var s = (+d).toString(16);
-    if(s.length < 2) {
-      s = '0' + s;
-    }
-    return s;
+    drawCanvas(targetR, targetG, targetB, userR, userG, userB, close);
   }
 
   // returns milliseconds since UNIX epoch
@@ -52,10 +38,10 @@
     return percentage_off;
   }
 
-  function calculate_score(r, g, b, in_r, in_g, in_b, time_taken, difficulty) {
-    var r_poff = percentage_off(in_r, r);
-    var g_poff = percentage_off(in_g, g);
-    var b_poff = percentage_off(in_b, b);
+  function calculate_score(targetR, targetG, targetB, userR, userG, userB, time_taken, difficulty) {
+    var r_poff = percentage_off(userR, targetR);
+    var g_poff = percentage_off(userG, targetG);
+    var b_poff = percentage_off(userB, targetB);
     var average = (r_poff + g_poff + b_poff) / 3;
     var score = ((15 - difficulty - average) / (15 - difficulty)) * (15000 - time_taken);
     score = Math.ceil(score * 100) / 100;
@@ -85,7 +71,7 @@
   }
 
   // Generate the game HTML
-  function genHTML(startingElement, targetColor, startTime, difficulty) {
+  function genHTML(startingElement, targetR, targetG, targetB, startTime, difficulty) {
 
     // Create title header
     var h1 = document.createElement("h1");
@@ -119,11 +105,11 @@
     sliders_red_slider.value = "255";
     sliders_red_slider.oninput = function(){
       document.getElementById("red_number").value = this.value;
-      updateCanvas(targetColor, startTime, difficulty);
+      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
     };
     sliders_red_slider.onchange = function(){
       document.getElementById("red_number").value = this.value;
-      updateCanvas(targetColor, startTime, difficulty);
+      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
     };
     var sliders_red_number = document.createElement("input");
     sliders_red_number.id = "red_number";
@@ -133,11 +119,11 @@
     sliders_red_number.max = "255";
     sliders_red_number.oninput = function(){
       document.getElementById("red_slider").value = this.value;
-      updateCanvas(targetColor, startTime, difficulty);
+      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
     };
     sliders_red_number.onchange = function(){
       document.getElementById("red_slider").value = this.value;
-      updateCanvas(targetColor, startTime, difficulty);
+      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
     };
 
     sliders_red.appendChild(sliders_red_slider);
@@ -153,11 +139,11 @@
     sliders_green_slider.value = "255";
     sliders_green_slider.oninput = function(){
       document.getElementById("green_number").value = this.value;
-      updateCanvas(targetColor, startTime, difficulty);
+      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
     };
     sliders_green_slider.onchange = function(){
       document.getElementById("green_number").value = this.value;
-      updateCanvas(targetColor, startTime, difficulty);
+      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
     };
     var sliders_green_number = document.createElement("input");
     sliders_green_number.id = "green_number";
@@ -167,11 +153,11 @@
     sliders_green_number.max = "255";
     sliders_green_number.oninput = function(){
       document.getElementById("green_slider").value = this.value;
-      updateCanvas(targetColor, startTime, difficulty);
+      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
     };
     sliders_green_number.onchange = function(){
       document.getElementById("green_slider").value = this.value;
-      updateCanvas(targetColor, startTime, difficulty);
+      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
     };
 
     sliders_green.appendChild(sliders_green_slider);
@@ -187,11 +173,11 @@
     sliders_blue_slider.value = "255";
     sliders_blue_slider.oninput = function(){
       document.getElementById("blue_number").value = this.value;
-      updateCanvas(targetColor, startTime, difficulty);
+      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
     };
     sliders_blue_slider.onchange = function(){
       document.getElementById("blue_number").value = this.value;
-      updateCanvas(targetColor, startTime, difficulty);
+      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
     };
     var sliders_blue_number = document.createElement("input");
     sliders_blue_number.id = "blue_number";
@@ -201,11 +187,11 @@
     sliders_blue_number.max = "255";
     sliders_blue_number.oninput = function(){
       document.getElementById("blue_slider").value = this.value;
-      updateCanvas(targetColor, startTime, difficulty);
+      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
     };
     sliders_blue_number.onchange = function(){
       document.getElementById("blue_slider").value = this.value;
-      updateCanvas(targetColor, startTime, difficulty);
+      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
     };
 
     sliders_blue.appendChild(sliders_blue_slider);
@@ -234,7 +220,7 @@
   // Takes in targetColor and userColor, both assumed to be valid canvas colors
   // (When it was the sample code, it was like "#000000"), other color representations
   // likely valid too but unknown at the moment
-  function drawCanvas(targetColor, userColor, totalSides) {
+  function drawCanvas(targetR, targetG, targetB, userR, userG, userB, totalSides) {
     var canvas = document.getElementById("myCanvas");
     var context = canvas.getContext("2d");
 
@@ -285,7 +271,7 @@
       context.lineTo(x + size * Math.cos(side * 2 * Math.PI / 6), y + size * Math.sin(side * 2 * Math.PI / 6));
     }
 
-    context.fillStyle = targetColor;
+    context.fillStyle = "rgb(" + targetR + "," + targetG + "," + targetB + ")";
     context.fill();
 
     // 2nd hexagon
@@ -318,7 +304,7 @@
       context.lineTo(x + size * Math.cos(side * 2 * Math.PI / totalSides), y + size * Math.sin(side * 2 * Math.PI / totalSides));
     }
 
-    context.fillStyle = userColor;
+    context.fillStyle = "rgb(" + userR + "," + userG + "," + userB + ")";
     context.fill();
 
 
