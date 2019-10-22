@@ -4,9 +4,9 @@
     // call startup functions inside this block
 
     var startTime = getTime();
-    var targetR = r_color();
-    var targetG = g_color();
-    var targetB = b_color();
+    var targetR = genRColor();
+    var targetG = genGColor();
+    var targetB = genBColor();
 
     genHTML(this.get(0), targetR, targetG, targetB, startTime, difficulty);
 
@@ -18,56 +18,57 @@
     var userR = parseInt(document.getElementById("red_number").value);
     var userG = parseInt(document.getElementById("green_number").value);
     var userB = parseInt(document.getElementById("blue_number").value);
-    var time_taken = getTime() - startTime;
-    var close = calculate_score(targetR, targetG, targetB, userR, userG, userB, time_taken, difficulty);
-
-    console.log(close);
-    close = 20;
-    drawCanvas(targetR, targetG, targetB, userR, userG, userB, close);
+    var close = averagePercentageOff(targetR, targetG, targetB, userR, userG, userB);
+    var sides = Math.max(6, 4 + Math.floor(close));
+    console.log(sides);
+    drawCanvas(targetR, targetG, targetB, userR, userG, userB, sides);
   }
 
   // returns milliseconds since UNIX epoch
   function getTime() {
     var d = new Date();
     var t = d.getTime();
+    console.log("Current milliseconds: " + t.toString());
     return t;
   }
 
-  function percentage_off(guess, actual) {
-    var percentage_off = (Math.abs(actual - guess) / 255) * 100;
-    return percentage_off;
+  function percentageOff(targetColor, userColor) {
+    return (Math.abs(targetColor - userColor) / 255) * 100;
   }
 
-  function calculate_score(targetR, targetG, targetB, userR, userG, userB, time_taken, difficulty) {
-    var r_poff = percentage_off(userR, targetR);
-    var g_poff = percentage_off(userG, targetG);
-    var b_poff = percentage_off(userB, targetB);
-    var average = (r_poff + g_poff + b_poff) / 3;
-    var score = ((15 - difficulty - average) / (15 - difficulty)) * (15000 - time_taken);
+  function averagePercentageOff(targetR, targetG, targetB, userR, userG, userB) {
+    var userR_off = percentageOff(targetR, userR);
+    var userG_off = percentageOff(targetG, userG);
+    var userB_off = percentageOff(targetB, userB);
+    return (userR_off + userG_off + userB_off) / 3;
+  }
+
+  function calculateScore(targetR, targetG, targetB, userR, userG, userB, time_taken, difficulty) {
+    var score = ((15 - difficulty - averagePercentageOff(targetR, targetG, targetB, userR, userG, userB)) / (15 - difficulty)) * Math.max(0, 15000 - time_taken);
     score = Math.ceil(score * 100) / 100;
     if (score < 0) {
       score = 0;
     }
-    return score;
+    return Math.abs(score);
   }
 
-  function r_color() {
+  function genRColor() {
     r = Math.floor(Math.random() * 256);
     return r;
   }
 
-  function g_color() {
+  function genGColor() {
     g = Math.floor(Math.random() * 256);
     return g;
   }
 
-  function b_color() {
+  function genBColor() {
     b = Math.floor(Math.random() * 256);
     return b;
   }
 
   function score() {
-    //get values from page and call calculate_score
+    //get values from page and call calculateScore
   }
 
   // Generate the game HTML
@@ -206,7 +207,7 @@
     submit.type = "button";
     submit.value = "Submit";
     submit.addEventListener("click", function() {
-      updateCanvas(targetColor, startTime, difficulty)
+      score.innerText = "Your Score: " + calculateScore().toString();
     });
     startingElement.appendChild(submit);
 
@@ -275,6 +276,9 @@
     context.fill();
 
     // 2nd hexagon
+
+    // Clear first
+    context.clearRect(canvas.width/2, 0, canvas.width, canvas.height);
 
     //var totalSides = 30;
 
