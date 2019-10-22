@@ -1,35 +1,45 @@
 (function($) {
 
-  $.fn.hexed = function(difficulty, turns) {
+  var startTime = getTime();
+  var targetR = genRColor();
+  var targetG = genGColor();
+  var targetB = genBColor();
+  var difficulty = 0;
+  var turns = 0;
+
+  $.fn.hexed = function(user_difficulty, user_turns) {
     // call startup functions inside this block
 
-    var startTime = getTime();
-    var targetR = genRColor();
-    var targetG = genGColor();
-    var targetB = genBColor();
+    difficulty = user_difficulty;
+    turns = user_turns;
 
     genHTML(this.get(0), targetR, targetG, targetB, startTime, difficulty);
 
-    drawCanvas(targetR, targetG, targetB, 255, 255, 255, 20);
+    drawCanvas(255, 255, 255, getSides());
 
   };
 
-  function updateCanvas(targetR, targetG, targetB, startTime, difficulty) {
-    var userR = parseInt(document.getElementById("red_number").value);
-    var userG = parseInt(document.getElementById("green_number").value);
-    var userB = parseInt(document.getElementById("blue_number").value);
-    var close = averagePercentageOff(targetR, targetG, targetB, userR, userG, userB);
-    var sides = Math.max(6, 4 + Math.floor(close));
-    console.log(sides);
-    drawCanvas(targetR, targetG, targetB, userR, userG, userB, sides);
+  function getUserR() {
+    return parseInt(document.getElementById("red_number").value);
+  }
+
+  function getUserG() {
+    return parseInt(document.getElementById("green_number").value);
+  }
+
+  function getUserB() {
+    return parseInt(document.getElementById("blue_number").value);
+  }
+
+  function getSides() {
+    var close = averagePercentageOff(targetR, targetG, targetB, getUserR(), getUserG(), getUserB());
+    return Math.max(6, 4 + Math.floor(close));
   }
 
   // returns milliseconds since UNIX epoch
   function getTime() {
     var d = new Date();
-    var t = d.getTime();
-    console.log("Current milliseconds: " + t.toString());
-    return t;
+    return d.getTime();
   }
 
   function percentageOff(targetColor, userColor) {
@@ -53,18 +63,15 @@
   }
 
   function genRColor() {
-    r = Math.floor(Math.random() * 256);
-    return r;
+    return Math.floor(Math.random() * 256);
   }
 
   function genGColor() {
-    g = Math.floor(Math.random() * 256);
-    return g;
+    return Math.floor(Math.random() * 256);
   }
 
   function genBColor() {
-    b = Math.floor(Math.random() * 256);
-    return b;
+    return Math.floor(Math.random() * 256);
   }
 
   function score() {
@@ -106,11 +113,11 @@
     sliders_red_slider.value = "255";
     sliders_red_slider.oninput = function(){
       document.getElementById("red_number").value = this.value;
-      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
+      drawCanvas();
     };
     sliders_red_slider.onchange = function(){
       document.getElementById("red_number").value = this.value;
-      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
+      drawCanvas();
     };
     var sliders_red_number = document.createElement("input");
     sliders_red_number.id = "red_number";
@@ -120,11 +127,11 @@
     sliders_red_number.max = "255";
     sliders_red_number.oninput = function(){
       document.getElementById("red_slider").value = this.value;
-      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
+      drawCanvas();
     };
     sliders_red_number.onchange = function(){
       document.getElementById("red_slider").value = this.value;
-      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
+      drawCanvas();
     };
 
     sliders_red.appendChild(sliders_red_slider);
@@ -140,11 +147,11 @@
     sliders_green_slider.value = "255";
     sliders_green_slider.oninput = function(){
       document.getElementById("green_number").value = this.value;
-      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
+      drawCanvas();
     };
     sliders_green_slider.onchange = function(){
       document.getElementById("green_number").value = this.value;
-      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
+      drawCanvas();
     };
     var sliders_green_number = document.createElement("input");
     sliders_green_number.id = "green_number";
@@ -154,11 +161,11 @@
     sliders_green_number.max = "255";
     sliders_green_number.oninput = function(){
       document.getElementById("green_slider").value = this.value;
-      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
+      drawCanvas();
     };
     sliders_green_number.onchange = function(){
       document.getElementById("green_slider").value = this.value;
-      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
+      drawCanvas();
     };
 
     sliders_green.appendChild(sliders_green_slider);
@@ -174,11 +181,11 @@
     sliders_blue_slider.value = "255";
     sliders_blue_slider.oninput = function(){
       document.getElementById("blue_number").value = this.value;
-      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
+      drawCanvas();
     };
     sliders_blue_slider.onchange = function(){
       document.getElementById("blue_number").value = this.value;
-      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
+      drawCanvas();
     };
     var sliders_blue_number = document.createElement("input");
     sliders_blue_number.id = "blue_number";
@@ -188,11 +195,11 @@
     sliders_blue_number.max = "255";
     sliders_blue_number.oninput = function(){
       document.getElementById("blue_slider").value = this.value;
-      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
+      drawCanvas();
     };
     sliders_blue_number.onchange = function(){
       document.getElementById("blue_slider").value = this.value;
-      updateCanvas(targetR, targetG, targetB, startTime, difficulty);
+      drawCanvas();
     };
 
     sliders_blue.appendChild(sliders_blue_slider);
@@ -221,31 +228,20 @@
   // Takes in targetColor and userColor, both assumed to be valid canvas colors
   // (When it was the sample code, it was like "#000000"), other color representations
   // likely valid too but unknown at the moment
-  function drawCanvas(targetR, targetG, targetB, userR, userG, userB, totalSides) {
+  function drawCanvas(userR, userG, userB, userSides) {
+
+    if(userR == null) {
+      userR = getUserR();
+      userG = getUserG();
+      userB = getUserB();
+    }
+
+    if(userSides == null) {
+      userSides = getSides();
+    }
+
     var canvas = document.getElementById("myCanvas");
     var context = canvas.getContext("2d");
-
-    var leftCircle_centerX = (canvas.width / 2) - (canvas.width / 4);
-    var leftCircle_centerY = (canvas.height / 2);
-    var rightCircle_centerX = (canvas.width / 2) + (canvas.width / 4);
-    var rightCircle_centerY = (canvas.height / 2);
-    var radius = (canvas.height / 4);
-
-/*      context.beginPath();
-    context.arc(leftCircle_centerX, leftCircle_centerY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = targetColor;
-    context.fill();
-    context.lineWidth = 5;
-    context.strokeStyle = '#000000';
-    context.stroke();
-
-    context.beginPath();
-    context.arc(rightCircle_centerX, rightCircle_centerY, radius, 0, 2 * Math.PI, false);
-    context.fillStyle = userColor;
-    context.fill();
-    context.lineWidth = 5;
-    context.strokeStyle = '#000000';
-    context.stroke();*/
 
     var size = 70;
     var x = 70;
@@ -280,7 +276,7 @@
     // Clear first
     context.clearRect(canvas.width/2, 0, canvas.width, canvas.height);
 
-    //var totalSides = 30;
+    //var userSides = 30;
 
     size = 70;
     x = 230;
@@ -289,8 +285,8 @@
     context.beginPath();
     context.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
 
-    for (var side = 0; side < totalSides; side++) {
-      context.lineTo(x + size * Math.cos(side * 2 * Math.PI / totalSides), y + size * Math.sin(side * 2 * Math.PI / totalSides));
+    for (var side = 0; side < userSides; side++) {
+      context.lineTo(x + size * Math.cos(side * 2 * Math.PI / userSides), y + size * Math.sin(side * 2 * Math.PI / userSides));
     }
 
     context.fillStyle = "#000000";
@@ -304,10 +300,11 @@
     context.beginPath();
     context.moveTo(x + size * Math.cos(0), y + size * Math.sin(0));
 
-    for (var side = 0; side < totalSides; side++) {
-      context.lineTo(x + size * Math.cos(side * 2 * Math.PI / totalSides), y + size * Math.sin(side * 2 * Math.PI / totalSides));
+    for (var side = 0; side < userSides; side++) {
+      context.lineTo(x + size * Math.cos(side * 2 * Math.PI / userSides), y + size * Math.sin(side * 2 * Math.PI / userSides));
     }
 
+    console.log(userSides.toString());
     context.fillStyle = "rgb(" + userR + "," + userG + "," + userB + ")";
     context.fill();
 
