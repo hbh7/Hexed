@@ -7,6 +7,7 @@
   var difficulty = 0;
   var turns = 0;
   var timerVar;
+  var totalScore = 0;
 
   $.fn.hexed = function(user_difficulty, user_turns) {
     // call startup functions inside this block
@@ -229,10 +230,13 @@
     submit.type = "button";
     submit.value = "Submit";
     submit.addEventListener("click", function() {
+      var roundScore = calculateScore();
       var result = "Your Score: " + calculateScore().toString() + "\n";
-      result += "Percentage Off Red: " + Math.ceil((percentageOff(targetR, getUserR()) * 100)/100) + "%" + "\n";
+      totalScore += roundScore;
+      result += "Percentage Off Red:   " + Math.ceil((percentageOff(targetR, getUserR()) * 100)/100) + "%" + "\n";
       result += "Percentage Off Green: " + Math.ceil((percentageOff(targetG, getUserG()) * 100)/100) + "%" + "\n";
-      result += "Percentage Off Blue: " + Math.ceil((percentageOff(targetB, getUserB()) * 100)/100) + "%" + "\n";
+      result += "Percentage Off Blue:  " + Math.ceil((percentageOff(targetB, getUserB()) * 100)/100) + "%" + "\n";
+      result += "Total Score: " + totalScore;
       score.innerText = result;
       clearInterval(timerVar);
     });
