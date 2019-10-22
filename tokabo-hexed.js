@@ -230,6 +230,7 @@
     submit.value = "Submit";
     submit.addEventListener("click", function() {
       score.innerText = "Your Score: " + calculateScore().toString();
+      clearInterval(timerVar);
     });
     startingElement.appendChild(submit);
 
@@ -339,6 +340,7 @@
     } else {
       timerElement.innerText = "Time Left: 0.0";
       clearInterval(timerVar);
+      document.getElementById("score").innerText = "Your Score: " + calculateScore().toString();
     }
   }
 
