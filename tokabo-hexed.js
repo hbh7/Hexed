@@ -234,6 +234,16 @@
     });
     startingElement.appendChild(submit);
 
+    // next Button
+    var next = document.createElement("input");
+    next.id = "next";
+    next.type = "button";
+    next.value = "Next Round";
+    next.addEventListener("click", function() {
+      
+    });
+    startingElement.appendChild(next);
+
     // Scoreboard
     var score = document.createElement("p");
     score.id = "scoreboard";
