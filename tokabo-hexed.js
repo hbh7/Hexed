@@ -42,6 +42,10 @@
     return d.getTime();
   }
 
+  function getTimeTaken() {
+    return getTime() - startTime;
+  }
+
   function percentageOff(targetColor, userColor) {
     return (Math.abs(targetColor - userColor) / 255) * 100;
   }
@@ -53,8 +57,8 @@
     return (userR_off + userG_off + userB_off) / 3;
   }
 
-  function calculateScore(targetR, targetG, targetB, userR, userG, userB, time_taken, difficulty) {
-    var score = ((15 - difficulty - averagePercentageOff(targetR, targetG, targetB, userR, userG, userB)) / (15 - difficulty)) * Math.max(0, 15000 - time_taken);
+  function calculateScore() {
+    var score = ((15 - difficulty - averagePercentageOff(targetR, targetG, targetB, getUserR(), getUserG(), getUserB())) / (15 - difficulty)) * Math.max(0, 15000 - getTimeTaken());
     score = Math.ceil(score * 100) / 100;
     if (score < 0) {
       score = 0;
