@@ -7,6 +7,7 @@
   var difficulty = 0;
   var turns = 0;
   var timerVar;
+  var totalScore = 0;
 
   $.fn.hexed = function(user_difficulty, user_turns) {
     // call startup functions inside this block
