@@ -357,6 +357,21 @@ function genForm() {
 
 // genForm() MUST finish before this function is called, as it takes the input from genForm and from other elements on the page
 function saveInfo() {
-  alert("button clicked");
+  var pName = document.getElementById("pName").value;
+  if (pName.length == 0) {
+    alert("Please enter a name");
+  } else {
+    //
+  }
 }
+
+
+
+
+
+
+
+
+
+
 
