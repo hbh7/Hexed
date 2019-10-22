@@ -229,7 +229,11 @@
     submit.type = "button";
     submit.value = "Submit";
     submit.addEventListener("click", function() {
-      score.innerText = "Your Score: " + calculateScore().toString();
+      var result = "Your Score: " + calculateScore().toString() + "\n";
+      result += "Percentage Off Red: " + Math.ceil((percentageOff(targetR, getUserR()) * 100)/100) + "%" + "\n";
+      result += "Percentage Off Green: " + Math.ceil((percentageOff(targetG, getUserG()) * 100)/100) + "%" + "\n";
+      result += "Percentage Off Blue: " + Math.ceil((percentageOff(targetB, getUserB()) * 100)/100) + "%" + "\n";
+      score.innerText = result;
       clearInterval(timerVar);
     });
     startingElement.appendChild(submit);
