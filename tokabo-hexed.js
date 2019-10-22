@@ -4,7 +4,10 @@
     // call startup functions inside this block
 
     var startTime = getTime();
-    var targetColor = genRandomColor();
+    var targetR = r_color();
+    var targetG = g_color();
+    var targetB = b_color();
+    var targetColor = genRandomColor(targetR, targetG, targetB);
 
     genHTML(this.get(0), targetColor, startTime, difficulty);
 
@@ -17,18 +20,15 @@
     var in_g = parseInt(document.getElementById("green_number").value);
     var in_b = parseInt(document.getElementById("blue_number").value);
     var hexValue = "#" + toPaddedHex(in_r) + toPaddedHex(in_g) + toPaddedHex(in_b);
-    console.log(hexValue);
     var time_taken = getTime() - startTime;
     close = calculate_score(r, g, b, in_r, in_g, in_b, time_taken, difficulty);
-    close = 20;
+
     console.log(close);
+    close = 20;
     drawCanvas(targetColor, hexValue, close);
   }
 
-  function genRandomColor() {
-    var in_r = r_color();
-    var in_g = g_color();
-    var in_b = b_color();
+  function genRandomColor(in_r, in_g, in_b) {
     return "#" + toPaddedHex(in_r) + toPaddedHex(in_g) + toPaddedHex(in_b);
   }
 
