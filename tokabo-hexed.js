@@ -58,13 +58,13 @@
   }
 
   function percentageOff(targetColor, userColor) {
-    return (Math.abs(targetColor - userColor) / 255) * 100;
+    return ((targetColor - userColor) / 255) * 100;
   }
 
   function averagePercentageOff(targetR, targetG, targetB, userR, userG, userB) {
-    var userR_off = percentageOff(targetR, userR);
-    var userG_off = percentageOff(targetG, userG);
-    var userB_off = percentageOff(targetB, userB);
+    var userR_off = Math.abs(percentageOff(targetR, userR));
+    var userG_off = Math.abs(percentageOff(targetG, userG));
+    var userB_off = Math.abs(percentageOff(targetB, userB));
     return (userR_off + userG_off + userB_off) / 3;
   }
 
