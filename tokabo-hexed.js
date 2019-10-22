@@ -6,6 +6,7 @@
   var targetB = genBColor();
   var difficulty = 0;
   var turns = 0;
+  var timerVar;
 
   $.fn.hexed = function(user_difficulty, user_turns) {
     // call startup functions inside this block
@@ -16,6 +17,16 @@
     genHTML(this.get(0), targetR, targetG, targetB, startTime, difficulty);
 
     drawCanvas(255, 255, 255, getSides());
+
+    if(difficulty < 3) {
+      timerVar = setInterval(function() { timer(0); }, 1000);
+    } else if(difficulty < 6) {
+      timerVar = setInterval(function() { timer(1); }, 100);
+    } else if(difficulty < 9) {
+      timerVar = setInterval(function() { timer(2); }, 10);
+    } else {
+      timerVar = setInterval(function() { timer(3); }, 1);
+    }
 
   };
 
@@ -225,8 +236,13 @@
     // Scoreboard
     var score = document.createElement("p");
     score.id = "scoreboard";
-    score.innerText = "Your Score: ";
     startingElement.appendChild(score);
+
+    // Countdown timer
+    var timer = document.createElement("p");
+    timer.id = "timer";
+    timer.innerText = "Time Left: ";
+    startingElement.appendChild(timer);
   }
 
   // Takes in targetColor and userColor, both assumed to be valid canvas colors
@@ -308,11 +324,22 @@
       context.lineTo(x + size * Math.cos(side * 2 * Math.PI / userSides), y + size * Math.sin(side * 2 * Math.PI / userSides));
     }
 
-    console.log(userSides.toString());
     context.fillStyle = "rgb(" + userR + "," + userG + "," + userB + ")";
     context.fill();
 
 
+  }
+
+
+  function timer(precision) {
+
+    timerElement = document.getElementById("timer");
+    if(15000 - getTimeTaken() > 0) {
+      timerElement.innerText = "Time Left: " + ((15000 - getTimeTaken()) / 1000).toFixed(precision);
+    } else {
+      timerElement.innerText = "Time Left: 0.0";
+      clearInterval(timerVar);
+    }
   }
 
 
