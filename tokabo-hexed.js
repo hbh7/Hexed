@@ -15,10 +15,6 @@
     difficulty = user_difficulty;
     turns = user_turns;
 
-    genHTML(this.get(0), targetR, targetG, targetB, startTime, difficulty);
-
-    drawCanvas(255, 255, 255, getSides());
-
     if(difficulty < 3) {
       timerVar = setInterval(function() { timer(0); }, 1000);
     } else if(difficulty < 6) {
@@ -28,6 +24,9 @@
     } else {
       timerVar = setInterval(function() { timer(3); }, 1);
     }
+
+    genHTML(this.get(0), targetR, targetG, targetB);
+    drawCanvas(255, 255, 255, getSides());
 
   };
 
@@ -95,7 +94,7 @@
   }
 
   // Generate the game HTML
-  function genHTML(startingElement, targetR, targetG, targetB, startTime, difficulty) {
+  function genHTML(startingElement, targetR, targetG, targetB) {
 
     // Create title header
     var h1 = document.createElement("h1");
@@ -230,6 +229,11 @@
     submit.type = "button";
     submit.value = "Submit";
     submit.addEventListener("click", function() {
+      // Make scoreboard
+      var score = document.createElement("p");
+      score.id = "scoreboard";
+      document.getElementById("timer").appendChild(score);
+
       var roundScore = calculateScore();
       var result = "Your Score: " + calculateScore().toString() + "\n";
       totalScore += roundScore;
@@ -248,14 +252,22 @@
     next.type = "button";
     next.value = "Next Round";
     next.addEventListener("click", function() {
-      
+      if (turns > 0) {
+        startTime = getTime();
+        if(difficulty < 3) {
+          timerVar = setInterval(function() { timer(0); }, 1000);
+        } else if(difficulty < 6) {
+          timerVar = setInterval(function() { timer(1); }, 100);
+        } else if(difficulty < 9) {
+          timerVar = setInterval(function() { timer(2); }, 10);
+        } else {
+          timerVar = setInterval(function() { timer(3); }, 1);
+        }
+        document.getElementById("scoreboard").remove();
+        turns--;
+      }
     });
     startingElement.appendChild(next);
-
-    // Scoreboard
-    var score = document.createElement("p");
-    score.id = "scoreboard";
-    startingElement.appendChild(score);
 
     // Countdown timer
     var timer = document.createElement("p");
@@ -358,7 +370,7 @@
     } else {
       timerElement.innerText = "Time Left: 0.0";
       clearInterval(timerVar);
-      document.getElementById("score").innerText = "Your Score: " + calculateScore().toString();
+      document.getElementById("scoreboard").innerText = "Your Score: " + calculateScore().toString();
     }
   }
 
