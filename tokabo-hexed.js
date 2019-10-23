@@ -82,18 +82,6 @@
   // Generate the game HTML
   function genHTML(startingElement, targetR, targetG, targetB) {
 
-    // Create title header
-    var h1 = document.createElement("h1");
-    h1.innerText = "Hexed! Guess The Color!";
-    h1.style = "text-align: center;";
-    startingElement.appendChild(h1);
-
-    // Create description header
-    var h2 = document.createElement("h2");
-    h2.innerText = "The goal of this game is to guess the RGB value";
-    h2.style = "text-align: center;";
-    startingElement.appendChild(h2);
-
     // Create canvas
     var canvas = document.createElement("canvas");
     canvas.id = "myCanvas";
