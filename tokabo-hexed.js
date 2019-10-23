@@ -238,8 +238,7 @@
       result += "Percentage Off Blue:  " + Math.ceil((percentageOff(targetB, getUserB()) * 100)/100) + "%" + "\n";
       result += "Total Score: " + totalScore;
       score.innerText = result;
-      clearInterval(timerVar);
-      timerVar = null;
+      stopTimer();
     });
     startingElement.appendChild(submit);
 
@@ -365,6 +364,11 @@
     }
   }
 
+  function stopTimer() {
+    clearInterval(timerVar);
+    timerVar = null;
+  }
+
   function timer(precision) {
 
     var timerElement = document.getElementById("timer");
@@ -372,8 +376,7 @@
       timerElement.innerText = "Time Left: " + ((15000 - getTimeTaken()) / 1000).toFixed(precision);
     } else {
       timerElement.innerText = "Time Left: 0.0";
-      clearInterval(timerVar);
-      timerVar = null;
+      stopTimer();
       document.getElementById("score").innerText = "Your Score: " + calculateScore().toString();
       document.getElementById("scoreboard").innerText = "Your Score: " + calculateScore().toString();
     }
