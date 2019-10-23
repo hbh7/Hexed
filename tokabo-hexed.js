@@ -1,6 +1,6 @@
 (function($) {
 
-  var startTime = getTime();
+  var startTime = 0;
   var targetR = genRColor();
   var targetG = genGColor();
   var targetB = genBColor();
@@ -344,6 +344,7 @@
   }
 
   function startTimer() {
+    startTime = getTime();
     if(difficulty < 3) {
       timerVar = setInterval(function() { timer(0); }, 1000);
     } else if(difficulty < 6) {
