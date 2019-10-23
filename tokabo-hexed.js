@@ -1,9 +1,9 @@
 (function($) {
 
   var startTime = 0;
-  var targetR = genRColor();
-  var targetG = genGColor();
-  var targetB = genBColor();
+  var targetR = 255;
+  var targetG = 255;
+  var targetB = 255;
   var difficulty = 0;
   var turns = 0;
   var timerVar;
@@ -17,8 +17,6 @@
 
     genHTML(this.get(0), targetR, targetG, targetB);
     drawCanvas(255, 255, 255, getSides());
-
-    startTimer();
 
   };
 
@@ -79,10 +77,6 @@
 
   function genBColor() {
     return Math.floor(Math.random() * 256);
-  }
-
-  function score() {
-    //get values from page and call calculateScore
   }
 
   // Generate the game HTML
@@ -221,20 +215,7 @@
     submit.type = "button";
     submit.value = "Submit";
     submit.addEventListener("click", function() {
-      // Make scoreboard
-      var score = document.createElement("p");
-      score.id = "scoreboard";
-      document.getElementById("timer").appendChild(score);
-
-      var roundScore = calculateScore();
-      var result = "Your Score: " + calculateScore().toString() + "\n";
-      totalScore += roundScore;
-      result += "Percentage Off Red:   " + Math.ceil((percentageOff(targetR, getUserR()) * 100)/100) + "%" + "\n";
-      result += "Percentage Off Green: " + Math.ceil((percentageOff(targetG, getUserG()) * 100)/100) + "%" + "\n";
-      result += "Percentage Off Blue:  " + Math.ceil((percentageOff(targetB, getUserB()) * 100)/100) + "%" + "\n";
-      result += "Total Score: " + totalScore;
-      score.innerText = result;
-      stopTimer();
+      stopRound();
     });
     startingElement.appendChild(submit);
 
@@ -245,9 +226,7 @@
     next.value = "Next Round";
     next.addEventListener("click", function() {
       if (turns > 0) {
-        startTimer();
-        document.getElementById("scoreboard").remove();
-        turns--;
+        startRound();
       }
 
     });
@@ -258,6 +237,13 @@
     timer.id = "timer";
     timer.innerText = "Time Left: ";
     startingElement.appendChild(timer);
+
+    // Scoreboard
+    var scoreboard = document.createElement("p");
+    scoreboard.id = "scoreboard";
+    scoreboard.hidden = true;
+    startingElement.appendChild(scoreboard);
+
   }
 
   // Takes in targetColor and userColor, both assumed to be valid canvas colors
@@ -342,7 +328,35 @@
     context.fillStyle = "rgb(" + userR + "," + userG + "," + userB + ")";
     context.fill();
 
+  }
 
+  function updateScoreboard() {
+    var roundScore = calculateScore();
+    var result = "Your Score: " + calculateScore().toString() + "\n";
+    totalScore += roundScore;
+    result += "Percentage Off Red:   " + Math.ceil((percentageOff(targetR, getUserR()) * 100)/100) + "%" + "\n";
+    result += "Percentage Off Green: " + Math.ceil((percentageOff(targetG, getUserG()) * 100)/100) + "%" + "\n";
+    result += "Percentage Off Blue:  " + Math.ceil((percentageOff(targetB, getUserB()) * 100)/100) + "%" + "\n";
+    result += "Total Score: " + totalScore;
+    document.getElementById("scoreboard").innerText = result;
+  }
+
+  function startRound() {
+    // Todo: we probably should check if there's any turns left before starting the round
+    targetR = genRColor();
+    targetG = genGColor();
+    targetB = genBColor();
+    drawCanvas(255, 255, 255, getSides());
+
+    document.getElementById("scoreboard").hidden = true;
+    turns--;
+    startTimer();
+  }
+
+  function stopRound() {
+    stopTimer();
+    updateScoreboard();
+    document.getElementById("scoreboard").hidden = false;
   }
 
   function startTimer() {
@@ -372,9 +386,7 @@
       timerElement.innerText = "Time Left: " + ((15000 - getTimeTaken()) / 1000).toFixed(precision);
     } else {
       timerElement.innerText = "Time Left: 0.0";
-      stopTimer();
-      document.getElementById("score").innerText = "Your Score: " + calculateScore().toString();
-      document.getElementById("scoreboard").innerText = "Your Score: " + calculateScore().toString();
+      stopRound();
     }
   }
 
