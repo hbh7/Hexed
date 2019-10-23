@@ -9,11 +9,11 @@
   var timerVar;
   var totalScore = 0;
 
-  $.fn.hexed = function(user_difficulty, user_turns) {
+  $.fn.hexed = function(settings) {
     // call startup functions inside this block
 
-    difficulty = user_difficulty;
-    turns = user_turns;
+    difficulty = settings.difficulty;
+    turns = settings.turns;
 
     genHTML(this.get(0), targetR, targetG, targetB);
     drawCanvas(255, 255, 255, getSides());
@@ -231,7 +231,7 @@
     // Countdown timer
     var timer = document.createElement("p");
     timer.id = "timer";
-    timer.innerText = "Time Left: ";
+    timer.innerText = "Time Left: 0";
     startingElement.appendChild(timer);
 
     // Scoreboard
@@ -365,7 +365,7 @@
 
       // Start a new timer
       startTimer();
-    } 
+    }
   }
 
   function stopRound() {
@@ -404,7 +404,7 @@
     if(15000 - getTimeTaken() > 0) {
       timerElement.innerText = "Time Left: " + ((15000 - getTimeTaken()) / 1000).toFixed(precision);
     } else {
-      timerElement.innerText = "Time Left: 0.0";
+      timerElement.innerText = "Time Left: 0";
       stopRound();
     }
   }

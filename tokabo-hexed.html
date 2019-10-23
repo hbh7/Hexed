@@ -8,8 +8,8 @@
 
   <body>
     <div id="hexedGame">
-      <h1 style = "text-align: center;"> Hexed! Guess The Color! </h1>
-      <h2 style = "text-align: center;"> The goal of this game is to guess the RGB value</h2>
+      <h1> Hexed! Guess The Color! </h1>
+      <h2> The goal of this game is to guess the RGB value</h2>
       <form>
         <p>
           Difficulty
@@ -32,7 +32,8 @@
     <script src="tokabo-hexed.js"></script>
     <script>
       $(document).ready(function() {
-      $("#hexedGame").hexed(5, 10);
+        var settings = { difficulty: 5, turns: 10};
+        $("#hexedGame").hexed(settings);
       });
     </script>
   </body>
