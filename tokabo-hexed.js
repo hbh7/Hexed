@@ -19,9 +19,8 @@
 
     drawCanvas(255, 255, 255, getSides());
 
-    // This relies on getTime(), so the timer needs to be reset separately
-    // for future rounds
     startTimer();
+
     genHTML(this.get(0), targetR, targetG, targetB);
     drawCanvas(255, 255, 255, getSides());
 
