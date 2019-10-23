@@ -15,16 +15,13 @@
     difficulty = user_difficulty;
     turns = user_turns;
 
-    if(difficulty < 3) {
-      timerVar = setInterval(function() { timer(0); }, 1000);
-    } else if(difficulty < 6) {
-      timerVar = setInterval(function() { timer(1); }, 100);
-    } else if(difficulty < 9) {
-      timerVar = setInterval(function() { timer(2); }, 10);
-    } else {
-      timerVar = setInterval(function() { timer(3); }, 1);
-    }
+    genHTML(this.get(0), targetR, targetG, targetB, startTime, difficulty);
 
+    drawCanvas(255, 255, 255, getSides());
+
+    // This relies on getTime(), so the timer needs to be reset separately
+    // for future rounds
+    startTimer();
     genHTML(this.get(0), targetR, targetG, targetB);
     drawCanvas(255, 255, 255, getSides());
 
@@ -254,18 +251,11 @@
     next.addEventListener("click", function() {
       if (turns > 0) {
         startTime = getTime();
-        if(difficulty < 3) {
-          timerVar = setInterval(function() { timer(0); }, 1000);
-        } else if(difficulty < 6) {
-          timerVar = setInterval(function() { timer(1); }, 100);
-        } else if(difficulty < 9) {
-          timerVar = setInterval(function() { timer(2); }, 10);
-        } else {
-          timerVar = setInterval(function() { timer(3); }, 1);
-        }
+        startTimer();
         document.getElementById("scoreboard").remove();
         turns--;
       }
+
     });
     startingElement.appendChild(next);
 
@@ -361,10 +351,21 @@
 
   }
 
+  function startTimer() {
+    if(difficulty < 3) {
+      timerVar = setInterval(function() { timer(0); }, 1000);
+    } else if(difficulty < 6) {
+      timerVar = setInterval(function() { timer(1); }, 100);
+    } else if(difficulty < 9) {
+      timerVar = setInterval(function() { timer(2); }, 10);
+    } else {
+      timerVar = setInterval(function() { timer(3); }, 1);
+    }
+  }
 
   function timer(precision) {
 
-    timerElement = document.getElementById("timer");
+    var timerElement = document.getElementById("timer");
     if(15000 - getTimeTaken() > 0) {
       timerElement.innerText = "Time Left: " + ((15000 - getTimeTaken()) / 1000).toFixed(precision);
     } else {
