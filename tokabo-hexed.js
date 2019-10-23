@@ -231,7 +231,7 @@
     // Countdown timer
     var timer = document.createElement("p");
     timer.id = "timer";
-    timer.innerText = "Time Left: 0";
+    timer.innerText = "Time Left: 15";
     startingElement.appendChild(timer);
 
     // Scoreboard
@@ -365,6 +365,23 @@
 
       // Start a new timer
       startTimer();
+    } else {
+      if(confirm("The game has finished! Want to start a new game? ")) {
+        // They say ok
+        // Reset the game
+        turns = 10;
+        document.getElementById("turns").value = turns;
+        document.getElementById("scoreboard").hidden = true;
+        targetR = 255;
+        targetG = 255;
+        targetB = 255;
+        drawCanvas(255, 255, 255, getSides());
+        totalScore = 0;
+        document.getElementById("timer").innerText = "Time Left: 15";
+      } else {
+        // They don't say ok
+        updateScoreboard();
+      }
     }
   }
 
