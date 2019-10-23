@@ -22,6 +22,8 @@
     // This relies on getTime(), so the timer needs to be reset separately
     // for future rounds
     startTimer();
+    genHTML(this.get(0), targetR, targetG, targetB);
+    drawCanvas(255, 255, 255, getSides());
 
   };
 
@@ -89,7 +91,7 @@
   }
 
   // Generate the game HTML
-  function genHTML(startingElement, targetR, targetG, targetB, startTime, difficulty) {
+  function genHTML(startingElement, targetR, targetG, targetB) {
 
     // Create title header
     var h1 = document.createElement("h1");
@@ -224,6 +226,11 @@
     submit.type = "button";
     submit.value = "Submit";
     submit.addEventListener("click", function() {
+      // Make scoreboard
+      var score = document.createElement("p");
+      score.id = "scoreboard";
+      document.getElementById("timer").appendChild(score);
+
       var roundScore = calculateScore();
       var result = "Your Score: " + calculateScore().toString() + "\n";
       totalScore += roundScore;
@@ -243,14 +250,14 @@
     next.type = "button";
     next.value = "Next Round";
     next.addEventListener("click", function() {
-      startTimer();
+      if (turns > 0) {
+        startTimer();
+        document.getElementById("scoreboard").remove();
+        turns--;
+      }
+
     });
     startingElement.appendChild(next);
-
-    // Scoreboard
-    var score = document.createElement("p");
-    score.id = "scoreboard";
-    startingElement.appendChild(score);
 
     // Countdown timer
     var timer = document.createElement("p");
@@ -369,6 +376,7 @@
       clearInterval(timerVar);
       timerVar = null;
       document.getElementById("score").innerText = "Your Score: " + calculateScore().toString();
+      document.getElementById("scoreboard").innerText = "Your Score: " + calculateScore().toString();
     }
   }
 
