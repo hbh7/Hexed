@@ -82,6 +82,16 @@
   // Generate the game HTML
   function genHTML(startingElement, targetR, targetG, targetB) {
 
+    // Create watchers for predefined elements
+    document.getElementById("difficulty").onchange = function () {
+      difficulty = document.getElementById("difficulty").value;
+      console.log("Difficulty updated to " + difficulty);
+    };
+    document.getElementById("turns").onchange = function () {
+      turns = document.getElementById("turns").value;
+      console.log("Turns updated to " + turns);
+    };
+
     // Create canvas
     var canvas = document.createElement("canvas");
     canvas.id = "myCanvas";
@@ -213,10 +223,8 @@
     next.type = "button";
     next.value = "Next Round";
     next.addEventListener("click", function() {
-      if (turns > 0) {
-        startRound();
-      }
-
+      stopRound();
+      startRound();
     });
     startingElement.appendChild(next);
 
@@ -331,7 +339,7 @@
 
   function startRound() {
 
-    if(turns >= 0) {
+    if(turns > 0) {
 
       // Generate a new color and UI
       targetR = genRColor();
@@ -353,17 +361,11 @@
 
       // Decrement turns
       turns--;
+      document.getElementById("turns").value = turns;
 
       // Start a new timer
       startTimer();
-    } else {
-
-      // Idk, what do we do if the game is over?
-
-      // Display scoreboard
-      updateScoreboard();
-      document.getElementById("scoreboard").hidden = true;
-    }
+    } 
   }
 
   function stopRound() {
@@ -376,12 +378,16 @@
     if(timerVar == null) {
       startTime = getTime();
       if(difficulty < 3) {
+        document.getElementById("timer").innerText = "Time Left: 15";
         timerVar = setInterval(function() { timer(0); }, 1000);
       } else if(difficulty < 6) {
+        document.getElementById("timer").innerText = "Time Left: 15.0";
         timerVar = setInterval(function() { timer(1); }, 100);
       } else if(difficulty < 9) {
+        document.getElementById("timer").innerText = "Time Left: 15.00";
         timerVar = setInterval(function() { timer(2); }, 10);
       } else {
+        document.getElementById("timer").innerText = "Time Left: 15.000";
         timerVar = setInterval(function() { timer(3); }, 1);
       }
     }
