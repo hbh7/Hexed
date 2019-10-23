@@ -233,6 +233,7 @@
       result += "Total Score: " + totalScore;
       score.innerText = result;
       clearInterval(timerVar);
+      timerVar = null;
     });
     startingElement.appendChild(submit);
 
@@ -242,7 +243,7 @@
     next.type = "button";
     next.value = "Next Round";
     next.addEventListener("click", function() {
-
+      startTimer();
     });
     startingElement.appendChild(next);
 
@@ -344,15 +345,17 @@
   }
 
   function startTimer() {
-    startTime = getTime();
-    if(difficulty < 3) {
-      timerVar = setInterval(function() { timer(0); }, 1000);
-    } else if(difficulty < 6) {
-      timerVar = setInterval(function() { timer(1); }, 100);
-    } else if(difficulty < 9) {
-      timerVar = setInterval(function() { timer(2); }, 10);
-    } else {
-      timerVar = setInterval(function() { timer(3); }, 1);
+    if(timerVar == null) {
+      startTime = getTime();
+      if(difficulty < 3) {
+        timerVar = setInterval(function() { timer(0); }, 1000);
+      } else if(difficulty < 6) {
+        timerVar = setInterval(function() { timer(1); }, 100);
+      } else if(difficulty < 9) {
+        timerVar = setInterval(function() { timer(2); }, 10);
+      } else {
+        timerVar = setInterval(function() { timer(3); }, 1);
+      }
     }
   }
 
@@ -364,6 +367,7 @@
     } else {
       timerElement.innerText = "Time Left: 0.0";
       clearInterval(timerVar);
+      timerVar = null;
       document.getElementById("score").innerText = "Your Score: " + calculateScore().toString();
     }
   }
