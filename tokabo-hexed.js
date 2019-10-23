@@ -15,14 +15,10 @@
     difficulty = user_difficulty;
     turns = user_turns;
 
-    genHTML(this.get(0), targetR, targetG, targetB, startTime, difficulty);
-
+    genHTML(this.get(0), targetR, targetG, targetB);
     drawCanvas(255, 255, 255, getSides());
 
     startTimer();
-
-    genHTML(this.get(0), targetR, targetG, targetB);
-    drawCanvas(255, 255, 255, getSides());
 
   };
 
