@@ -9,7 +9,7 @@
   <body>
     <div id="hexedGame">
       <form><p>Difficulty</p>
-        <select name="difficulty">
+        <select id="difficulty">
           <option value="1">1</option>
           <option value="2">2</option>
           <option value="3">3</option>
@@ -27,7 +27,7 @@
     <script src="tokabo-hexed.js"></script>
     <script>
       $(document).ready(function() {
-      $("#hexedGame").hexed(9, 3);
+      $("#hexedGame").hexed(5, 10);
       });
     </script>
   </body>

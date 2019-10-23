@@ -342,15 +342,40 @@
   }
 
   function startRound() {
-    // Todo: we probably should check if there's any turns left before starting the round
-    targetR = genRColor();
-    targetG = genGColor();
-    targetB = genBColor();
-    drawCanvas(255, 255, 255, getSides());
 
-    document.getElementById("scoreboard").hidden = true;
-    turns--;
-    startTimer();
+    if(turns >= 0) {
+
+      // Generate a new color and UI
+      targetR = genRColor();
+      targetG = genGColor();
+      targetB = genBColor();
+      drawCanvas(255, 255, 255, getSides());
+
+      // Reset sliders and values
+      document.getElementById("red_slider").value = 255;
+      document.getElementById("red_number").value = 255;
+      document.getElementById("green_slider").value = 255;
+      document.getElementById("green_number").value = 255;
+      document.getElementById("blue_slider").value = 255;
+      document.getElementById("blue_number").value = 255;
+
+      // Display scoreboard
+      updateScoreboard();
+      document.getElementById("scoreboard").hidden = true;
+
+      // Decrement turns
+      turns--;
+
+      // Start a new timer
+      startTimer();
+    } else {
+
+      // Idk, what do we do if the game is over?
+
+      // Display scoreboard
+      updateScoreboard();
+      document.getElementById("scoreboard").hidden = true;
+    }
   }
 
   function stopRound() {
