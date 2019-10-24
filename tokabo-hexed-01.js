@@ -205,28 +205,16 @@
 
     startingElement.appendChild(sliders);
 
-    // Submit Button
-    var submit = document.createElement("input");
-    submit.id = "submit";
-    submit.type = "button";
-    submit.value = "Submit";
-    submit.style = "width: 90px;";
-    submit.addEventListener("click", function() {
-      stopRound();
+    // Turn Button
+    var turnButton = document.createElement("input");
+    turnButton.id = "turnButton";
+    turnButton.type = "button";
+    turnButton.value = "Start Round";
+    turnButton.style = "margin-top: 10px";
+    turnButton.addEventListener("click", function() {
+      cycleTurnButton();
     });
-    startingElement.appendChild(submit);
-
-    // Next Round Button
-    var next = document.createElement("input");
-    next.id = "next";
-    next.type = "button";
-    next.value = "Next Round";
-    next.style = "margin-left: 4px; width: 90px;";
-    next.addEventListener("click", function() {
-      stopRound();
-      startRound();
-    });
-    startingElement.appendChild(next);
+    startingElement.appendChild(turnButton);
 
     // Countdown timer
     var timer = document.createElement("p");
@@ -362,6 +350,26 @@
     document.getElementById("scoreboard").innerText = result;
   }
 
+  function cycleTurnButton() {
+    var turnButton = document.getElementById("turnButton");
+
+    if (turnButton.value === "Start Round") {
+      startRound();
+      turnButton.value = "Submit";
+    } else if (turnButton.value === "Submit") {
+      stopRound();
+      if(turns === 0) {
+        turnButton.value = "Game over!";
+      } else {
+        turnButton.value = "Next Round";
+      }
+    } else if (turnButton.value === "Next Round") {
+      startRound();
+      turnButton.value = "Submit";
+    } else {
+
+    }
+  }
 
   function startRound() {
 
@@ -425,6 +433,7 @@
     totalScore = 0;
     document.getElementById("timer").innerText = "Time Left: 15";
     document.getElementById("highScoreSaveForm").hidden = true;
+    document.getElementById("turnButton").innerText = "Start Round";
   }
 
   function startTimer() {
