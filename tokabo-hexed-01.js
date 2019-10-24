@@ -8,6 +8,7 @@
   var turns = 0;
   var timerVar;
   var totalScore = 0;
+  var first_run = 0;
 
   $.fn.hexed = function(settings) {
     // call startup functions inside this block
@@ -18,7 +19,6 @@
     genHTML(this.get(0), targetR, targetG, targetB);
     drawCanvas(255, 255, 255, getSides());
     genHighScoreSaveForm();
-
   };
 
   function getUserR() {
@@ -82,7 +82,6 @@
 
   // Generate the game HTML
   function genHTML(startingElement, targetR, targetG, targetB) {
-
     // Create watchers for predefined elements
     document.getElementById("difficulty").onchange = function () {
       difficulty = document.getElementById("difficulty").value;
@@ -92,7 +91,13 @@
       turns = document.getElementById("turns").value;
       console.log("Turns updated to " + turns);
     };
-
+    var canvas_check = document.getElementById("myCanvas");
+    if (canvas_check == null && first_run == 1) {
+      return;
+    }
+    if (first_run == 0) {
+      first_run = 1;
+    }
     // Create canvas
     var canvas = document.createElement("canvas");
     canvas.id = "myCanvas";

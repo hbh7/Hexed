@@ -27,14 +27,21 @@
           </select>
         </p>
       </form>
-      <p>Turns <input id="turns" type = "number" min="0" value="10"></p>
+      <form>Turns 
+        <input id="turns" type = "number" min="0" value="10">
+      </form>
+      <form>
+        <input type="button" value="New Game" onclick="newGame()">
+      </form>
     </div>
     <script src="tokabo-hexed-01.js"></script>
     <script>
-      $(document).ready(function() {
-        var settings = { difficulty: 5, turns: 10};
+      function newGame() {
+        var diff = document.getElementById("difficulty").value;
+        var turn = document.getElementById("turns").value;
+        var settings = { difficulty: diff, turns: turn};
         $("#hexedGame").hexed(settings);
-      });
+      }
     </script>
   </body>
 </html>
