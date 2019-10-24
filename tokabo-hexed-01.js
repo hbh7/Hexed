@@ -16,7 +16,6 @@
 
     genHTML(this.get(0));
     drawCanvas(255, 255, 255);
-    genHighScoreSaveForm();
   };
 
   function getUserR() {
