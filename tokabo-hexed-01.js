@@ -8,7 +8,6 @@
   var turns = 0;
   var timerVar;
   var totalScore = 0;
-  var first_run = 0;
 
   $.fn.hexed = function(settings) {
     // call startup functions inside this block
@@ -91,19 +90,14 @@
     // Create watchers for predefined elements
     document.getElementById("difficulty").onchange = function () {
       difficulty = document.getElementById("difficulty").value;
-      console.log("Difficulty updated to " + difficulty);
     };
     document.getElementById("turns").onchange = function () {
       turns = document.getElementById("turns").value;
-      console.log("Turns updated to " + turns);
     };
-    var canvas_check = document.getElementById("myCanvas");
-    if (canvas_check == null && first_run == 1) {
-      return;
-    }
-    if (first_run == 0) {
-      first_run = 1;
-    }
+    document.getElementById("newGameButton").onclick = function () {
+      newGame();
+    };
+
     // Create canvas
     var canvas = document.createElement("canvas");
     canvas.id = "myCanvas";
@@ -381,16 +375,7 @@
       if(confirm("The game has finished! Want to start a new game? ")) {
         // They say ok
         // Reset the game
-        turns = 10;
-        document.getElementById("turns").value = turns;
-        document.getElementById("scoreboard").hidden = true;
-        targetR = 255;
-        targetG = 255;
-        targetB = 255;
-        drawCanvas(255, 255, 255, getSides());
-        totalScore = 0;
-        document.getElementById("timer").innerText = "Time Left: 15";
-        document.getElementById("highScoreSaveForm").hidden = true;
+        resetGame();
       } else {
         // They don't say ok
         updateScoreboard();
@@ -406,6 +391,19 @@
       document.getElementById("highScoreSaveForm").hidden = false;
     }
 
+  }
+
+  function resetGame() {
+    turns = 10;
+    document.getElementById("turns").value = turns;
+    document.getElementById("scoreboard").hidden = true;
+    targetR = 255;
+    targetG = 255;
+    targetB = 255;
+    drawCanvas(255, 255, 255, getSides());
+    totalScore = 0;
+    document.getElementById("timer").innerText = "Time Left: 15";
+    document.getElementById("highScoreSaveForm").hidden = true;
   }
 
   function startTimer() {
