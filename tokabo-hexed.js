@@ -22,8 +22,6 @@
     // This relies on getTime(), so the timer needs to be reset separately
     // for future rounds
     startTimer();
-    genHTML(this.get(0), targetR, targetG, targetB);
-    drawCanvas(255, 255, 255, getSides());
 
   };
 
@@ -71,7 +69,7 @@
     if (score < 0) {
       score = 0;
     }
-    return Math.abs(score);
+    return score;
   }
 
   function genRColor() {
