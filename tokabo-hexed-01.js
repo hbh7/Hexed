@@ -401,15 +401,6 @@
 
       // Start a new timer
       startTimer();
-    } else {
-      if(confirm("The game has finished! Want to start a new game? ")) {
-        // They say ok
-        // Reset the game
-        resetGame();
-      } else {
-        // They don't say ok
-        updateScoreboard();
-      }
     }
   }
 
@@ -435,7 +426,7 @@
     totalScore = 0;
     document.getElementById("timer").innerText = "Time Left: 15";
     document.getElementById("highScoreSaveForm").hidden = true;
-    document.getElementById("turnButton").innerText = "Start Round";
+    document.getElementById("turnButton").value = "Start Round";
   }
 
   function startTimer() {
