@@ -355,6 +355,7 @@
     var roundScore = calculateScore();
     var result = "Your Score: " + calculateScore().toString() + "\n";
     totalScore += roundScore;
+    totalScore = Math.ceil(totalScore * 100) / 100;
     result += "Percentage Off Red:   " + Math.ceil((percentageOff(targetR, getUserR()) * 100)/100) + "%" + "\n";
     result += "Percentage Off Green: " + Math.ceil((percentageOff(targetG, getUserG()) * 100)/100) + "%" + "\n";
     result += "Percentage Off Blue:  " + Math.ceil((percentageOff(targetB, getUserB()) * 100)/100) + "%" + "\n";
