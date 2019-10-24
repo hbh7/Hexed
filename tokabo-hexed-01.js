@@ -417,7 +417,7 @@
 
   function resetGame() {
     stopRound();
-    turns = 10;
+    turns = origTurns;
     document.getElementById("turns").value = turns;
     document.getElementById("scoreboard").hidden = true;
     targetR = 255;
