@@ -249,6 +249,32 @@
     scoreboard.hidden = true;
     startingElement.appendChild(scoreboard);
 
+    // High Score
+    var form = document.createElement("div");
+    form.id = "highScoreSaveForm";
+    form.hidden = true;
+    var someText = document.createElement("p");
+    someText.innerText = "Enter your name and click the button to save your score :)";
+    form.appendChild(someText);
+    // input field (player name)
+    var inputName = document.createElement("input");
+    inputName.id = "pName";
+    inputName.type = "text";
+    inputName.placeholder = "Name here";
+    inputName.required = "required";
+    form.appendChild(inputName);
+    // Submit Button
+    var submit = document.createElement("input");
+    submit.id = "saveInfo";
+    submit.type = "button";
+    submit.value = "Save Score";
+    submit.onclick = function() {
+      saveInfo();
+      alert("Score saved!");
+    };
+    form.appendChild(submit);
+    startingElement.appendChild(form);
+
   }
 
   // Takes in targetColor and userColor, both assumed to be valid canvas colors
@@ -442,36 +468,6 @@
       timerElement.innerText = "Time Left: 0";
       stopRound();
     }
-  }
-
-
-    // not sure where this code will go yet (some of it will probably go in a different file)
-    // this function should run after the game ends and the user's score is calculated
-  function genHighScoreSaveForm() {
-    var form = document.createElement("div");
-    form.id = "highScoreSaveForm";
-    form.hidden = true;
-    var someText = document.createElement("p");
-    someText.innerText = "Enter your name and click the button to save your score :)";
-    form.appendChild(someText);
-    // input field (player name)
-    var inputName = document.createElement("input");
-    inputName.id = "pName";
-    inputName.type = "text";
-    inputName.placeholder = "Name here";
-    inputName.required = "required";
-    form.appendChild(inputName);
-    // Submit Button
-    var submit = document.createElement("input");
-    submit.id = "saveInfo";
-    submit.type = "button";
-    submit.value = "Save Score";
-    submit.onclick = function() {
-      saveInfo();
-      alert("Score saved!");
-    };
-    form.appendChild(submit);
-    document.body.appendChild(form);
   }
 
   function saveInfo() {
