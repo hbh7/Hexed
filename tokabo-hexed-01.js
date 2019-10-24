@@ -11,14 +11,12 @@
 
   $.fn.hexed = function(settings) {
     // call startup functions inside this block
-
     difficulty = settings.difficulty;
     turns = settings.turns;
 
-    genHTML(this.get(0), targetR, targetG, targetB);
-    drawCanvas(255, 255, 255, getSides());
+    genHTML(this.get(0));
+    drawCanvas(255, 255, 255);
     genHighScoreSaveForm();
-
   };
 
   function getUserR() {
@@ -65,7 +63,7 @@
     if (score < 0) {
       score = 0;
     }
-    return Math.abs(score);
+    return Math.abs(score); // fixes -0
   }
 
   function genRColor() {
@@ -81,16 +79,16 @@
   }
 
   // Generate the game HTML
-  function genHTML(startingElement, targetR, targetG, targetB) {
-
+  function genHTML(startingElement) {
     // Create watchers for predefined elements
     document.getElementById("difficulty").onchange = function () {
       difficulty = document.getElementById("difficulty").value;
-      console.log("Difficulty updated to " + difficulty);
     };
     document.getElementById("turns").onchange = function () {
       turns = document.getElementById("turns").value;
-      console.log("Turns updated to " + turns);
+    };
+    document.getElementById("newGameButton").onclick = function () {
+      resetGame();
     };
 
     // Create canvas
@@ -213,16 +211,18 @@
     submit.id = "submit";
     submit.type = "button";
     submit.value = "Submit";
+    submit.style = "width: 90px;";
     submit.addEventListener("click", function() {
       stopRound();
     });
     startingElement.appendChild(submit);
 
-    // next Button
+    // Next Round Button
     var next = document.createElement("input");
     next.id = "next";
     next.type = "button";
     next.value = "Next Round";
+    next.style = "margin-left: 4px; width: 90px;";
     next.addEventListener("click", function() {
       stopRound();
       startRound();
@@ -241,12 +241,38 @@
     scoreboard.hidden = true;
     startingElement.appendChild(scoreboard);
 
+    // High Score
+    var form = document.createElement("div");
+    form.id = "highScoreSaveForm";
+    form.hidden = true;
+    var someText = document.createElement("p");
+    someText.innerText = "Enter your name and click the button to save your score :)";
+    form.appendChild(someText);
+    // input field (player name)
+    var inputName = document.createElement("input");
+    inputName.id = "pName";
+    inputName.type = "text";
+    inputName.placeholder = "Name here";
+    inputName.required = true;
+    form.appendChild(inputName);
+    // Submit Button
+    var submitHighScore = document.createElement("input");
+    submitHighScore.id = "saveInfo";
+    submitHighScore.type = "button";
+    submitHighScore.value = "Save Score";
+    submitHighScore.onclick = function() {
+      saveInfo();
+      alert("Score saved!");
+    };
+    form.appendChild(submitHighScore);
+    startingElement.appendChild(form);
+
   }
 
   // Takes in targetColor and userColor, both assumed to be valid canvas colors
   // (When it was the sample code, it was like "#000000"), other color representations
   // likely valid too but unknown at the moment
-  function drawCanvas(userR, userG, userB, userSides) {
+  function drawCanvas(userR, userG, userB) {
 
     if(userR == null) {
       userR = getUserR();
@@ -254,9 +280,7 @@
       userB = getUserB();
     }
 
-    if(userSides == null) {
-      userSides = getSides();
-    }
+    userSides = getSides();
 
     var canvas = document.getElementById("myCanvas");
     var context = canvas.getContext("2d");
@@ -331,12 +355,14 @@
     var roundScore = calculateScore();
     var result = "Your Score: " + calculateScore().toString() + "\n";
     totalScore += roundScore;
+    totalScore = Math.ceil(totalScore * 100) / 100;
     result += "Percentage Off Red:   " + Math.ceil((percentageOff(targetR, getUserR()) * 100)/100) + "%" + "\n";
     result += "Percentage Off Green: " + Math.ceil((percentageOff(targetG, getUserG()) * 100)/100) + "%" + "\n";
     result += "Percentage Off Blue:  " + Math.ceil((percentageOff(targetB, getUserB()) * 100)/100) + "%" + "\n";
     result += "Total Score: " + totalScore;
     document.getElementById("scoreboard").innerText = result;
   }
+
 
   function startRound() {
 
@@ -346,7 +372,7 @@
       targetR = genRColor();
       targetG = genGColor();
       targetB = genBColor();
-      drawCanvas(255, 255, 255, getSides());
+      drawCanvas(255, 255, 255);
 
       // Reset sliders and values
       document.getElementById("red_slider").value = 255;
@@ -370,16 +396,7 @@
       if(confirm("The game has finished! Want to start a new game? ")) {
         // They say ok
         // Reset the game
-        turns = 10;
-        document.getElementById("turns").value = turns;
-        document.getElementById("scoreboard").hidden = true;
-        targetR = 255;
-        targetG = 255;
-        targetB = 255;
-        drawCanvas(255, 255, 255, getSides());
-        totalScore = 0;
-        document.getElementById("timer").innerText = "Time Left: 15";
-        document.getElementById("highScoreSaveForm").hidden = true;
+        resetGame();
       } else {
         // They don't say ok
         updateScoreboard();
@@ -395,6 +412,20 @@
       document.getElementById("highScoreSaveForm").hidden = false;
     }
 
+  }
+
+  function resetGame() {
+    stopRound();
+    turns = 10;
+    document.getElementById("turns").value = turns;
+    document.getElementById("scoreboard").hidden = true;
+    targetR = 255;
+    targetG = 255;
+    targetB = 255;
+    drawCanvas(255, 255, 255);
+    totalScore = 0;
+    document.getElementById("timer").innerText = "Time Left: 15";
+    document.getElementById("highScoreSaveForm").hidden = true;
   }
 
   function startTimer() {
@@ -430,36 +461,6 @@
       timerElement.innerText = "Time Left: 0";
       stopRound();
     }
-  }
-
-
-    // not sure where this code will go yet (some of it will probably go in a different file)
-    // this function should run after the game ends and the user's score is calculated
-  function genHighScoreSaveForm() {
-    var form = document.createElement("div");
-    form.id = "highScoreSaveForm";
-    form.hidden = true;
-    var someText = document.createElement("p");
-    someText.innerText = "Enter your name and click the button to save your score :)";
-    form.appendChild(someText);
-    // input field (player name)
-    var inputName = document.createElement("input");
-    inputName.id = "pName";
-    inputName.type = "text";
-    inputName.placeholder = "Name here";
-    inputName.required = "required";
-    form.appendChild(inputName);
-    // Submit Button
-    var submit = document.createElement("input");
-    submit.id = "saveInfo";
-    submit.type = "button";
-    submit.value = "Save Score";
-    submit.onclick = function() {
-      saveInfo();
-      alert("Score saved!");
-    };
-    form.appendChild(submit);
-    document.body.appendChild(form);
   }
 
   function saveInfo() {
