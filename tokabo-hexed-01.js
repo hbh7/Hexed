@@ -357,7 +357,7 @@
       targetR = genRColor();
       targetG = genGColor();
       targetB = genBColor();
-      drawCanvas(255, 255, 255, getSides());
+      drawCanvas(255, 255, 255);
 
       // Reset sliders and values
       document.getElementById("red_slider").value = 255;
@@ -406,7 +406,7 @@
     targetR = 255;
     targetG = 255;
     targetB = 255;
-    drawCanvas(255, 255, 255, getSides());
+    drawCanvas(255, 255, 255);
     totalScore = 0;
     document.getElementById("timer").innerText = "Time Left: 15";
     document.getElementById("highScoreSaveForm").hidden = true;
