@@ -406,6 +406,7 @@
 
   function stopRound() {
     stopTimer();
+    document.getElementById("turnButton").value = "Next Round";
     updateScoreboard();
     document.getElementById("scoreboard").hidden = false;
     if(turns === 0) {
