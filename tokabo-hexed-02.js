@@ -21,14 +21,21 @@ function genPage() {
       // if the element exists, remove it
       document.getElementById("noInfo").remove();
     }
+    // make sure that the table is empty (if it is not, empty it)
+    if ($("#scores").children().length > 0) {
+      // table is not empty
+      $("tr").remove();
+    }
     // populate the table
     var jsonStr = localStorage.getItem("highScores");
     var jsonObj = JSON.parse(jsonStr);
     jsonObj.highScores.sort(function(a, b) {
-      if (a.score == b.score) {
-        return a.sortTime < b.sortTime;
+      if (a.score != b.score) {
+        // sort scores in descending order (highest on top)
+        return b.score - a.score;
       } else {
-        return a.score < b.score;
+        // sort timestamps in ascending order (most recent on top)
+        return b.sortTime - a.sortTime;
       }
     });
     // add classes/IDs as necessary for any CSS stuff
