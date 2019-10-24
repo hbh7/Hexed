@@ -8,14 +8,12 @@
   var turns = 0;
   var timerVar;
   var totalScore = 0;
-  var first_run = 0;
 
-  $.fn.hexed = function(settings) {
+  $.fn.hexed = function(user_difficulty, user_turns) {
     // call startup functions inside this block
 
-    difficulty = settings.difficulty;
-    turns = settings.turns;
-
+    difficulty = user_difficulty;
+    turns = user_turns;
 
     genHTML(this.get(0), targetR, targetG, targetB, startTime, difficulty);
 
@@ -24,7 +22,7 @@
     // This relies on getTime(), so the timer needs to be reset separately
     // for future rounds
     startTimer();
-    genHighScoreSaveForm();
+
   };
 
   function getUserR() {
@@ -86,24 +84,25 @@
     return Math.floor(Math.random() * 256);
   }
 
+  function score() {
+    //get values from page and call calculateScore
+  }
+
   // Generate the game HTML
   function genHTML(startingElement, targetR, targetG, targetB) {
-    // Create watchers for predefined elements
-    document.getElementById("difficulty").onchange = function () {
-      difficulty = document.getElementById("difficulty").value;
-      console.log("Difficulty updated to " + difficulty);
-    };
-    document.getElementById("turns").onchange = function () {
-      turns = document.getElementById("turns").value;
-      console.log("Turns updated to " + turns);
-    };
-    var canvas_check = document.getElementById("myCanvas");
-    if (canvas_check == null && first_run == 1) {
-      return;
-    }
-    if (first_run == 0) {
-      first_run = 1;
-    }
+
+    // Create title header
+    var h1 = document.createElement("h1");
+    h1.innerText = "Hexed! Guess The Color!";
+    h1.style = "text-align: center;";
+    startingElement.appendChild(h1);
+
+    // Create description header
+    var h2 = document.createElement("h2");
+    h2.innerText = "The goal of this game is to guess the RGB value";
+    h2.style = "text-align: center;";
+    startingElement.appendChild(h2);
+
     // Create canvas
     var canvas = document.createElement("canvas");
     canvas.id = "myCanvas";
@@ -225,7 +224,20 @@
     submit.type = "button";
     submit.value = "Submit";
     submit.addEventListener("click", function() {
-      stopRound();
+      // Make scoreboard
+      var score = document.createElement("p");
+      score.id = "scoreboard";
+      document.getElementById("timer").appendChild(score);
+
+      var roundScore = calculateScore();
+      var result = "Your Score: " + calculateScore().toString() + "\n";
+      totalScore += roundScore;
+      result += "Percentage Off Red:   " + Math.ceil((percentageOff(targetR, getUserR()) * 100)/100) + "%" + "\n";
+      result += "Percentage Off Green: " + Math.ceil((percentageOff(targetG, getUserG()) * 100)/100) + "%" + "\n";
+      result += "Percentage Off Blue:  " + Math.ceil((percentageOff(targetB, getUserB()) * 100)/100) + "%" + "\n";
+      result += "Total Score: " + totalScore;
+      score.innerText = result;
+      clearInterval(timerVar);
     });
     startingElement.appendChild(submit);
 
@@ -235,23 +247,21 @@
     next.type = "button";
     next.value = "Next Round";
     next.addEventListener("click", function() {
-      stopRound();
-      startRound();
+      if (turns > 0) {
+        startTime = getTime();
+        startTimer();
+        document.getElementById("scoreboard").remove();
+        turns--;
+      }
+
     });
     startingElement.appendChild(next);
 
     // Countdown timer
     var timer = document.createElement("p");
     timer.id = "timer";
-    timer.innerText = "Time Left: 15";
+    timer.innerText = "Time Left: ";
     startingElement.appendChild(timer);
-
-    // Scoreboard
-    var scoreboard = document.createElement("p");
-    scoreboard.id = "scoreboard";
-    scoreboard.hidden = true;
-    startingElement.appendChild(scoreboard);
-
   }
 
   // Takes in targetColor and userColor, both assumed to be valid canvas colors
@@ -336,100 +346,20 @@
     context.fillStyle = "rgb(" + userR + "," + userG + "," + userB + ")";
     context.fill();
 
-  }
-
-  function updateScoreboard() {
-    var roundScore = calculateScore();
-    var result = "Your Score: " + calculateScore().toString() + "\n";
-    totalScore += roundScore;
-    result += "Percentage Off Red:   " + Math.ceil((percentageOff(targetR, getUserR()) * 100)/100) + "%" + "\n";
-    result += "Percentage Off Green: " + Math.ceil((percentageOff(targetG, getUserG()) * 100)/100) + "%" + "\n";
-    result += "Percentage Off Blue:  " + Math.ceil((percentageOff(targetB, getUserB()) * 100)/100) + "%" + "\n";
-    result += "Total Score: " + totalScore;
-    document.getElementById("scoreboard").innerText = result;
-  }
-
-  function startRound() {
-
-    if(turns > 0) {
-
-      // Generate a new color and UI
-      targetR = genRColor();
-      targetG = genGColor();
-      targetB = genBColor();
-      drawCanvas(255, 255, 255, getSides());
-
-      // Reset sliders and values
-      document.getElementById("red_slider").value = 255;
-      document.getElementById("red_number").value = 255;
-      document.getElementById("green_slider").value = 255;
-      document.getElementById("green_number").value = 255;
-      document.getElementById("blue_slider").value = 255;
-      document.getElementById("blue_number").value = 255;
-
-      // Display scoreboard
-      updateScoreboard();
-      document.getElementById("scoreboard").hidden = true;
-
-      // Decrement turns
-      turns--;
-      document.getElementById("turns").value = turns;
-
-      // Start a new timer
-      startTimer();
-    } else {
-      if(confirm("The game has finished! Want to start a new game? ")) {
-        // They say ok
-        // Reset the game
-        turns = 10;
-        document.getElementById("turns").value = turns;
-        document.getElementById("scoreboard").hidden = true;
-        targetR = 255;
-        targetG = 255;
-        targetB = 255;
-        drawCanvas(255, 255, 255, getSides());
-        totalScore = 0;
-        document.getElementById("timer").innerText = "Time Left: 15";
-        document.getElementById("highScoreSaveForm").hidden = true;
-      } else {
-        // They don't say ok
-        updateScoreboard();
-      }
-    }
-  }
-
-  function stopRound() {
-    stopTimer();
-    updateScoreboard();
-    document.getElementById("scoreboard").hidden = false;
-    if(turns === 0) {
-      document.getElementById("highScoreSaveForm").hidden = false;
-    }
 
   }
 
   function startTimer() {
-    if(timerVar == null) {
-      startTime = getTime();
-      if(difficulty < 3) {
-        document.getElementById("timer").innerText = "Time Left: 15";
-        timerVar = setInterval(function() { timer(0); }, 1000);
-      } else if(difficulty < 6) {
-        document.getElementById("timer").innerText = "Time Left: 15.0";
-        timerVar = setInterval(function() { timer(1); }, 100);
-      } else if(difficulty < 9) {
-        document.getElementById("timer").innerText = "Time Left: 15.00";
-        timerVar = setInterval(function() { timer(2); }, 10);
-      } else {
-        document.getElementById("timer").innerText = "Time Left: 15.000";
-        timerVar = setInterval(function() { timer(3); }, 1);
-      }
+    startTime = getTime();
+    if(difficulty < 3) {
+      timerVar = setInterval(function() { timer(0); }, 1000);
+    } else if(difficulty < 6) {
+      timerVar = setInterval(function() { timer(1); }, 100);
+    } else if(difficulty < 9) {
+      timerVar = setInterval(function() { timer(2); }, 10);
+    } else {
+      timerVar = setInterval(function() { timer(3); }, 1);
     }
-  }
-
-  function stopTimer() {
-    clearInterval(timerVar);
-    timerVar = null;
   }
 
   function timer(precision) {
@@ -438,68 +368,82 @@
     if(15000 - getTimeTaken() > 0) {
       timerElement.innerText = "Time Left: " + ((15000 - getTimeTaken()) / 1000).toFixed(precision);
     } else {
-      timerElement.innerText = "Time Left: 0";
-      stopRound();
+      timerElement.innerText = "Time Left: 0.0";
+      clearInterval(timerVar);
+      document.getElementById("scoreboard").innerText = "Your Score: " + calculateScore().toString();
     }
   }
 
-
-    // not sure where this code will go yet (some of it will probably go in a different file)
-    // this function should run after the game ends and the user's score is calculated
-  function genHighScoreSaveForm() {
-    var form = document.createElement("div");
-    form.id = "highScoreSaveForm";
-    form.hidden = true;
-    var someText = document.createElement("p");
-    someText.innerText = "Enter your name and click the button to save your score :)";
-    form.appendChild(someText);
-    // input field (player name)
-    var inputName = document.createElement("input");
-    inputName.id = "pName";
-    inputName.type = "text";
-    inputName.placeholder = "Name here";
-    inputName.required = "required";
-    form.appendChild(inputName);
-    // Submit Button
-    var submit = document.createElement("input");
-    submit.id = "saveInfo";
-    submit.type = "button";
-    submit.value = "Save Score";
-    submit.onclick = function() {
-      saveInfo();
-      alert("Score saved!");
-    };
-    form.appendChild(submit);
-    document.body.appendChild(form);
-  }
-
-  function saveInfo() {
-    var pName = document.getElementById("pName").value;
-    var currentTime = new Date();
-    sortTime = currentTime.getTime(); // used for secondary sorting
-    var readableTime = currentTime.toDateString(); // what a user looking at the table will actually see
-    if (pName.length === 0) {
-      alert("Please enter a name");
-    } else {
-      // take pName, difficulty, turns, totalScore, and find the current time
-      //  store all of this in localStorage as an entry in a JSON array
-      // check if the array has already been created in localStorage (I want to add to it, not override it)
-      if (!localStorage.getItem("highScores")) {
-        // the highScores item does NOT exist yet
-        var jsonEntry;
-        jsonEntry = {"highScores": [{"name":pName, "difficulty":difficulty, "turns":turns, "score":totalScore, "sortTime":sortTime, "readableTime":readableTime}]};
-        jsonEntry = JSON.stringify(jsonEntry);
-        localStorage.setItem("highScores", [jsonEntry]);
-      } else {
-        // the highScores item already exists
-        jsonEntry = {"name":pName, "difficulty":difficulty, "turns":turns, "score":totalScore, "sortTime":sortTime, "readableTime":readableTime};
-        var jsonStr = localStorage.getItem("highScores");
-        var jsonObj = JSON.parse(jsonStr);
-        jsonObj["highScores"].push(jsonEntry);
-        jsonStr = JSON.stringify(jsonObj);
-        localStorage.setItem("highScores", jsonStr);
-      }
-    }
-  }
 
 }(jQuery));
+
+
+
+
+// not sure where this code will go yet (some of it will probably go in a different file)
+// this function should run after the game ends and the user's score is calculated
+function genForm() {
+  var form = document.createElement("div");
+  var someText = document.createElement("p");
+  someText.innerText = "Enter your name and click the button to save your score :)"
+  form.appendChild(someText);
+  // input field (player name)
+  var inputName = document.createElement("input");
+  inputName.id = "pName";
+  inputName.type = "text";
+  inputName.placeholder = "Name here";
+  inputName.required = "required";
+  form.appendChild(inputName);
+  // Submit Button
+  var submit = document.createElement("input");
+  submit.id = "saveInfo";
+  submit.type = "button";
+  submit.value = "Save Score";
+  submit.onclick = function() { saveInfo(); };
+  form.appendChild(submit);
+  document.body.appendChild(form);
+}
+
+/* NOTE: for now, this function will not work because the variables are not defined in its scope.
+    to fix this, either make the variables in question global or put this function inside the plugin
+    I'm not sure where it's going to go yet so for now it will remain broken (but trust me, it does work, as long as the variables are defined) */
+
+// genForm() MUST finish before this function is called, as it takes the input from genForm and from other elements on the page
+function saveInfo() {
+  var pName = document.getElementById("pName").value;
+  var currentTime = new Date();
+  sortTime = currentTime.getTime(); // used for secondary sorting
+  var readableTime = currentTime.toDateString(); // what a user looking at the table will actually see
+  if (pName.length == 0) {
+    alert("Please enter a name");
+  } else {
+    // take pName, difficulty, turns, totalScore, and find the current time
+    //  store all of this in localStorage as an entry in a JSON array
+    // check if the array has already been created in localStorage (I want to add to it, not override it)
+    if (!localStorage.getItem("highScores")) {
+      // the highScores item does NOT exist yet
+      var jsonEntry = {"highScores": [{"name":pName, "difficulty":difficulty, "turns":turns, "score":totalScore, "sortTime":sortTime, "readableTime":readableTime}]};
+      jsonEntry = JSON.stringify(jsonEntry);
+      localStorage.setItem("highScores", [jsonEntry]);
+    } else {
+      // the highScores item already exists
+      var jsonEntry = {"name":pName, "difficulty":difficulty, "turns":turns, "score":totalScore, "sortTime":sortTime, "readableTime":readableTime};
+      var jsonStr = localStorage.getItem("highScores");
+      var jsonObj = JSON.parse(jsonStr);
+      jsonObj["highScores"].push(jsonEntry);
+      jsonStr = JSON.stringify(jsonObj);
+      localStorage.setItem("highScores", jsonStr);
+    }
+  }
+}
+
+
+
+
+
+
+
+
+
+
+
