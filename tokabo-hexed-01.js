@@ -211,31 +211,23 @@
     submit.id = "submit";
     submit.type = "button";
     submit.value = "Submit";
+    submit.style = "width: 90px;";
     submit.addEventListener("click", function() {
       stopRound();
     });
     startingElement.appendChild(submit);
 
-    // next Button
+    // Next Round Button
     var next = document.createElement("input");
     next.id = "next";
     next.type = "button";
     next.value = "Next Round";
+    next.style = "margin-left: 4px; width: 90px;";
     next.addEventListener("click", function() {
       stopRound();
       startRound();
     });
     startingElement.appendChild(next);
-    
-    //jump to score page button
-    var SeeScore = document.createElement("input");
-    SeeScore.id = "SeeScore";
-    SeeScore.type = "button";
-    SeeScore.value = "All Scores";
-    SeeScore.addEventListener("click", function() {
-      window.location.href="scores.html"
-    });
-    startingElement.appendChild(SeeScore);
 
     // Countdown timer
     var timer = document.createElement("p");
@@ -261,18 +253,18 @@
     inputName.id = "pName";
     inputName.type = "text";
     inputName.placeholder = "Name here";
-    inputName.required = "required";
+    inputName.required = true;
     form.appendChild(inputName);
     // Submit Button
-    var submit = document.createElement("input");
-    submit.id = "saveInfo";
-    submit.type = "button";
-    submit.value = "Save Score";
-    submit.onclick = function() {
+    var submitHighScore = document.createElement("input");
+    submitHighScore.id = "saveInfo";
+    submitHighScore.type = "button";
+    submitHighScore.value = "Save Score";
+    submitHighScore.onclick = function() {
       saveInfo();
       alert("Score saved!");
     };
-    form.appendChild(submit);
+    form.appendChild(submitHighScore);
     startingElement.appendChild(form);
 
   }
