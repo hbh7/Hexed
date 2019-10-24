@@ -233,6 +233,16 @@
       startRound();
     });
     startingElement.appendChild(next);
+    
+    //jump to score page button
+    var SeeScore = document.createElement("input");
+    SeeScore.id = "SeeScore";
+    SeeScore.type = "button";
+    SeeScore.value = "All Scores";
+    SeeScore.addEventListener("click", function() {
+      window.location.href="scores.html"
+    });
+    startingElement.appendChild(SeeScore);
 
     // Countdown timer
     var timer = document.createElement("p");
