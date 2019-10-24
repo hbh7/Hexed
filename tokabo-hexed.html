@@ -31,12 +31,12 @@
         <input id="turns" type = "number" min="0" value="10">
       </form>
       <form>
-        <input type="button" value="New Game" id="newGameButton" onclick="newGame()" style="margin-top: 10px;">
+        <input type="button" value="New Game" id="newGameButton" onclick="startGame()" style="margin-top: 10px;">
       </form>
     </div>
     <script src="tokabo-hexed-01.js"></script>
     <script>
-      function newGame() {
+      function startGame() {
         document.getElementById("newGameButton").onclick = null;
         var diff = document.getElementById("difficulty").value;
         var turn = document.getElementById("turns").value;

@@ -11,16 +11,11 @@
 
   $.fn.hexed = function(settings) {
     // call startup functions inside this block
-
     difficulty = settings.difficulty;
     turns = settings.turns;
 
-
     genHTML(this.get(0));
-
     drawCanvas(255, 255, 255);
-
-    startTimer();
     genHighScoreSaveForm();
   };
 
@@ -93,7 +88,7 @@
       turns = document.getElementById("turns").value;
     };
     document.getElementById("newGameButton").onclick = function () {
-      newGame();
+      resetGame();
     };
 
     // Create canvas
@@ -267,7 +262,7 @@
       userB = getUserB();
     }
 
-    getSides();
+    userSides = getSides();
 
     var canvas = document.getElementById("myCanvas");
     var context = canvas.getContext("2d");
@@ -349,6 +344,7 @@
     document.getElementById("scoreboard").innerText = result;
   }
 
+
   function startRound() {
 
     if(turns > 0) {
@@ -400,6 +396,7 @@
   }
 
   function resetGame() {
+    stopRound();
     turns = 10;
     document.getElementById("turns").value = turns;
     document.getElementById("scoreboard").hidden = true;
