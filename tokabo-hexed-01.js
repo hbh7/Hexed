@@ -1,9 +1,9 @@
 (function($) {
 
   var startTime = 0;
-  var targetR = genRColor();
-  var targetG = genGColor();
-  var targetB = genBColor();
+  var targetR = 255;
+  var targetG = 255;
+  var targetB = 255;
   var difficulty = 0;
   var turns = 0;
   var timerVar;
@@ -16,12 +16,10 @@
     turns = settings.turns;
 
 
-    genHTML(this.get(0), targetR, targetG, targetB, startTime, difficulty);
+    genHTML(this.get(0));
 
-    drawCanvas(255, 255, 255, getSides());
+    drawCanvas(255, 255, 255);
 
-    // This relies on getTime(), so the timer needs to be reset separately
-    // for future rounds
     startTimer();
     genHighScoreSaveForm();
   };
@@ -70,7 +68,7 @@
     if (score < 0) {
       score = 0;
     }
-    return score;
+    return Math.abs(score); // fixes -0
   }
 
   function genRColor() {
@@ -86,7 +84,7 @@
   }
 
   // Generate the game HTML
-  function genHTML(startingElement, targetR, targetG, targetB) {
+  function genHTML(startingElement) {
     // Create watchers for predefined elements
     document.getElementById("difficulty").onchange = function () {
       difficulty = document.getElementById("difficulty").value;
@@ -261,7 +259,7 @@
   // Takes in targetColor and userColor, both assumed to be valid canvas colors
   // (When it was the sample code, it was like "#000000"), other color representations
   // likely valid too but unknown at the moment
-  function drawCanvas(userR, userG, userB, userSides) {
+  function drawCanvas(userR, userG, userB) {
 
     if(userR == null) {
       userR = getUserR();
@@ -269,9 +267,7 @@
       userB = getUserB();
     }
 
-    if(userSides == null) {
-      userSides = getSides();
-    }
+    getSides();
 
     var canvas = document.getElementById("myCanvas");
     var context = canvas.getContext("2d");
