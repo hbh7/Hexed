@@ -12,14 +12,17 @@ window.onload = function() {
 
 function genPage() {
   if (!localStorage.getItem("highScores")) {
-    var noInfo = document.createElement("p");
-    noInfo.innerText = "No scores :(";
-    noInfo.id = "noInfo";
-    document.body.insertBefore(noInfo, document.getElementById("scores"));
+    if (!document.getElementById("noInfo")) {
+      var noInfo = document.createElement("p");
+      noInfo.innerText = "No scores :(";
+      noInfo.id = "noInfo";
+      document.body.insertBefore(noInfo, document.getElementById("scores"));
+    }
+    $("tr").remove();
   } else {
     if (document.getElementById("noInfo")) {
       // if the element exists, remove it
-      document.getElementById("noInfo").remove();
+      $("#noInfo").remove();
     }
     // make sure that the table is empty (if it is not, empty it)
     if ($("#scores").children().length > 0) {
@@ -86,6 +89,7 @@ function clearHS() {
   var result = window.confirm("Are you sure you want to clear your high scores?");
   if (result === true) {
     localStorage.removeItem("highScores");
+    genPage();
   }
 }
 
