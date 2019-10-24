@@ -17,6 +17,7 @@
 
     genHTML(this.get(0), targetR, targetG, targetB);
     drawCanvas(255, 255, 255, getSides());
+    genHighScoreSaveForm();
 
   };
 
@@ -378,6 +379,7 @@
         drawCanvas(255, 255, 255, getSides());
         totalScore = 0;
         document.getElementById("timer").innerText = "Time Left: 15";
+        document.getElementById("highScoreSaveForm").hidden = true;
       } else {
         // They don't say ok
         updateScoreboard();
@@ -389,6 +391,10 @@
     stopTimer();
     updateScoreboard();
     document.getElementById("scoreboard").hidden = false;
+    if(turns === 0) {
+      document.getElementById("highScoreSaveForm").hidden = false;
+    }
+
   }
 
   function startTimer() {
@@ -427,75 +433,62 @@
   }
 
 
-}(jQuery));
+    // not sure where this code will go yet (some of it will probably go in a different file)
+    // this function should run after the game ends and the user's score is calculated
+  function genHighScoreSaveForm() {
+    var form = document.createElement("div");
+    form.id = "highScoreSaveForm";
+    form.hidden = true;
+    var someText = document.createElement("p");
+    someText.innerText = "Enter your name and click the button to save your score :)";
+    form.appendChild(someText);
+    // input field (player name)
+    var inputName = document.createElement("input");
+    inputName.id = "pName";
+    inputName.type = "text";
+    inputName.placeholder = "Name here";
+    inputName.required = "required";
+    form.appendChild(inputName);
+    // Submit Button
+    var submit = document.createElement("input");
+    submit.id = "saveInfo";
+    submit.type = "button";
+    submit.value = "Save Score";
+    submit.onclick = function() {
+      saveInfo();
+      alert("Score saved!");
+    };
+    form.appendChild(submit);
+    document.body.appendChild(form);
+  }
 
-
-
-
-// not sure where this code will go yet (some of it will probably go in a different file)
-// this function should run after the game ends and the user's score is calculated
-function genForm() {
-  var form = document.createElement("div");
-  var someText = document.createElement("p");
-  someText.innerText = "Enter your name and click the button to save your score :)"
-  form.appendChild(someText);
-  // input field (player name)
-  var inputName = document.createElement("input");
-  inputName.id = "pName";
-  inputName.type = "text";
-  inputName.placeholder = "Name here";
-  inputName.required = "required";
-  form.appendChild(inputName);
-  // Submit Button
-  var submit = document.createElement("input");
-  submit.id = "saveInfo";
-  submit.type = "button";
-  submit.value = "Save Score";
-  submit.onclick = function() { saveInfo(); };
-  form.appendChild(submit);
-  document.body.appendChild(form);
-}
-
-/* NOTE: for now, this function will not work because the variables are not defined in its scope.
-    to fix this, either make the variables in question global or put this function inside the plugin
-    I'm not sure where it's going to go yet so for now it will remain broken (but trust me, it does work, as long as the variables are defined) */
-
-// genForm() MUST finish before this function is called, as it takes the input from genForm and from other elements on the page
-function saveInfo() {
-  var pName = document.getElementById("pName").value;
-  var currentTime = new Date();
-  sortTime = currentTime.getTime(); // used for secondary sorting
-  var readableTime = currentTime.toDateString(); // what a user looking at the table will actually see
-  if (pName.length == 0) {
-    alert("Please enter a name");
-  } else {
-    // take pName, difficulty, turns, totalScore, and find the current time
-    //  store all of this in localStorage as an entry in a JSON array
-    // check if the array has already been created in localStorage (I want to add to it, not override it)
-    if (!localStorage.getItem("highScores")) {
-      // the highScores item does NOT exist yet
-      var jsonEntry = {"highScores": [{"name":pName, "difficulty":difficulty, "turns":turns, "score":totalScore, "sortTime":sortTime, "readableTime":readableTime}]};
-      jsonEntry = JSON.stringify(jsonEntry);
-      localStorage.setItem("highScores", [jsonEntry]);
+  function saveInfo() {
+    var pName = document.getElementById("pName").value;
+    var currentTime = new Date();
+    sortTime = currentTime.getTime(); // used for secondary sorting
+    var readableTime = currentTime.toDateString(); // what a user looking at the table will actually see
+    if (pName.length === 0) {
+      alert("Please enter a name");
     } else {
-      // the highScores item already exists
-      var jsonEntry = {"name":pName, "difficulty":difficulty, "turns":turns, "score":totalScore, "sortTime":sortTime, "readableTime":readableTime};
-      var jsonStr = localStorage.getItem("highScores");
-      var jsonObj = JSON.parse(jsonStr);
-      jsonObj["highScores"].push(jsonEntry);
-      jsonStr = JSON.stringify(jsonObj);
-      localStorage.setItem("highScores", jsonStr);
+      // take pName, difficulty, turns, totalScore, and find the current time
+      //  store all of this in localStorage as an entry in a JSON array
+      // check if the array has already been created in localStorage (I want to add to it, not override it)
+      if (!localStorage.getItem("highScores")) {
+        // the highScores item does NOT exist yet
+        var jsonEntry;
+        jsonEntry = {"highScores": [{"name":pName, "difficulty":difficulty, "turns":turns, "score":totalScore, "sortTime":sortTime, "readableTime":readableTime}]};
+        jsonEntry = JSON.stringify(jsonEntry);
+        localStorage.setItem("highScores", [jsonEntry]);
+      } else {
+        // the highScores item already exists
+        jsonEntry = {"name":pName, "difficulty":difficulty, "turns":turns, "score":totalScore, "sortTime":sortTime, "readableTime":readableTime};
+        var jsonStr = localStorage.getItem("highScores");
+        var jsonObj = JSON.parse(jsonStr);
+        jsonObj["highScores"].push(jsonEntry);
+        jsonStr = JSON.stringify(jsonObj);
+        localStorage.setItem("highScores", jsonStr);
+      }
     }
   }
-}
 
-
-
-
-
-
-
-
-
-
-
+}(jQuery));
