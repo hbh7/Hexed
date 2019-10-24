@@ -8,26 +8,32 @@
 
   <body>
     <div id="hexedGame">
-      <form><p>Difficulty</p>
-        <select name="difficulty">
-          <option value="1">1</option>
-          <option value="2">2</option>
-          <option value="3">3</option>
-          <option value="4">4</option>
-          <option value="5" selected>5</option>
-          <option value="6">6</option>
-          <option value="7">7</option>
-          <option value="8">8</option>
-          <option value="9">9</option>
-          <option value="10">10</option>
-        </select>
+      <h1> Hexed! Guess The Color! </h1>
+      <h2> The goal of this game is to guess the RGB value</h2>
+      <form>
+        <p>
+          Difficulty
+          <select id="difficulty">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5" selected>5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+          </select>
+        </p>
       </form>
-      <p>Turns</p><input id="turns" type = "number" min="0" value="10">
+      <p>Turns <input id="turns" type = "number" min="0" value="10"></p>
     </div>
-    <script src="tokabo-hexed.js"></script>
+    <script src="tokabo-hexed-01.js"></script>
     <script>
       $(document).ready(function() {
-      $("#hexedGame").hexed(9, 3);
+        var settings = { difficulty: 5, turns: 10};
+        $("#hexedGame").hexed(settings);
       });
     </script>
   </body>
