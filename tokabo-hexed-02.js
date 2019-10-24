@@ -81,3 +81,7 @@ function clearHS() {
     localStorage.removeItem("highScores");
   }
 }
+
+function backgame(){
+  window.location.href="tokabo-hexed.html";
+}
