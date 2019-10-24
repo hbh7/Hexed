@@ -6,6 +6,7 @@
   var targetB = 255;
   var difficulty = 0;
   var turns = 0;
+  var origTurns = 0;
   var timerVar;
   var totalScore = 0;
 
@@ -13,6 +14,7 @@
     // call startup functions inside this block
     difficulty = settings.difficulty;
     turns = settings.turns;
+    origTurns = settings.turns;
 
     genHTML(this.get(0));
     drawCanvas(255, 255, 255);
@@ -476,12 +478,12 @@
       if (!localStorage.getItem("highScores")) {
         // the highScores item does NOT exist yet
         var jsonEntry;
-        jsonEntry = {"highScores": [{"name":pName, "difficulty":difficulty, "turns":turns, "score":totalScore, "sortTime":sortTime, "readableTime":readableTime}]};
+        jsonEntry = {"highScores": [{"name":pName, "difficulty":difficulty, "turns":origTurns, "score":totalScore, "sortTime":sortTime, "readableTime":readableTime}]};
         jsonEntry = JSON.stringify(jsonEntry);
         localStorage.setItem("highScores", [jsonEntry]);
       } else {
         // the highScores item already exists
-        jsonEntry = {"name":pName, "difficulty":difficulty, "turns":turns, "score":totalScore, "sortTime":sortTime, "readableTime":readableTime};
+        jsonEntry = {"name":pName, "difficulty":difficulty, "turns":origTurns, "score":totalScore, "sortTime":sortTime, "readableTime":readableTime};
         var jsonStr = localStorage.getItem("highScores");
         var jsonObj = JSON.parse(jsonStr);
         jsonObj["highScores"].push(jsonEntry);
